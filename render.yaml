@@ -1,0 +1,50 @@
+# First deployment: set ALLOWED_ORIGINS to your actual https://...onrender.com URL.
+# Free Render Postgres expires after 30 days. Use a durable plan for ongoing use.
+services:
+  - type: web
+    name: plainly-legal-simplifier
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: plainly-db
+          property: connectionString
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: AI_PROVIDER
+        value: groq
+      - key: EMBEDDING_PROVIDER
+        value: local
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+      - key: AUTH_PROVIDER
+        value: local
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_ISSUER
+        sync: false
+      # Optional Google OAuth: set all three values together to enable.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false
+databases:
+  - name: plainly-db
+    plan: free
+    databaseName: plainly
+    user: plainly
+    postgresMajorVersion: "16"
+    ipAllowList: []

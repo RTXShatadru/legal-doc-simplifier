@@ -1,0 +1,10 @@
+.env
+backend/.env
+**/*.db*
+**/__pycache__/
+**/.pytest_cache/
+**/node_modules/
+frontend-react/dist/
+.venv/
+.runtime/
+*.log

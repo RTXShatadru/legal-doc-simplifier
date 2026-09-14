@@ -1,0 +1,52 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: plainly
+      POSTGRES_USER: plainly
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-plainly-local-only}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - plainly_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plainly -d plainly"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      DATABASE_URL: postgresql://plainly:${POSTGRES_PASSWORD:-plainly-local-only}@db:5432/plainly
+      APP_ENV: development
+      JWT_SECRET: ${JWT_SECRET:-local-demo-only-change-this-before-hosting}
+      AI_PROVIDER: ${AI_PROVIDER:-groq}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-local}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:4b-instruct-2507-q4_K_M}
+      OLLAMA_BASE_URL: ${OLLAMA_DOCKER_URL:-http://host.docker.internal:11434}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.1-8b-instant}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash-lite}
+      VOYAGE_API_KEY: ${VOYAGE_API_KEY:-}
+      VOYAGE_MODEL: ${VOYAGE_MODEL:-voyage-3.5-lite}
+      ALLOWED_ORIGINS: http://localhost:8000,http://127.0.0.1:8000
+      AUTH_PROVIDER: ${AUTH_PROVIDER:-local}
+      CLERK_PUBLISHABLE_KEY: ${CLERK_PUBLISHABLE_KEY:-}
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:-}
+      CLERK_ISSUER: ${CLERK_ISSUER:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+volumes:
+  plainly_db:

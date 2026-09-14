@@ -1,0 +1,135 @@
+[
+  {
+    "id": "auto-renewal",
+    "title": "Automatic renewal",
+    "risk_level": "medium",
+    "patterns": [
+      "automatically renew",
+      "automatic renewal"
+    ],
+    "reason": "The agreement may continue without a new signature. Check the notice deadline and opt-out process.",
+    "question": "How and by when can I prevent renewal?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "unilateral-change",
+    "title": "Terms can change without your agreement",
+    "risk_level": "high",
+    "patterns": [
+      "sole discretion",
+      "without prior notice",
+      "unilaterally"
+    ],
+    "reason": "One party may be able to change costs or obligations. Check notice requirements and your right to leave.",
+    "question": "Can changes require written agreement from both parties?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "broad-liability",
+    "title": "Broad responsibility for losses",
+    "risk_level": "high",
+    "patterns": [
+      "indemnif",
+      "hold harmless",
+      "unlimited liability",
+      "all claims"
+    ],
+    "reason": "You may become responsible for losses or legal costs. Check the scope, exclusions and financial cap.",
+    "question": "What losses are covered, and is there a limit?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "arbitration",
+    "title": "Dispute resolution restrictions",
+    "risk_level": "medium",
+    "patterns": [
+      "binding arbitration",
+      "waive",
+      "jury trial"
+    ],
+    "reason": "The dispute process may restrict how claims can be brought. Check procedure, costs and opt-out rights.",
+    "question": "What dispute options remain available?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "late-fee",
+    "title": "Late payment charges",
+    "risk_level": "medium",
+    "patterns": [
+      "late fee",
+      "late payment",
+      "penalty interest",
+      "default interest"
+    ],
+    "reason": "Late payment may add to the amount owed. Check the grace period, calculation and maximum charge.",
+    "question": "Are late charges capped and is there a grace period?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "early-exit",
+    "title": "Cost of leaving or repaying early",
+    "risk_level": "medium",
+    "patterns": [
+      "prepayment penalty",
+      "early termination fee",
+      "remaining rent",
+      "early repayment charge"
+    ],
+    "reason": "Ending the agreement or repaying early may cost extra. Check when and how the charge applies.",
+    "question": "Can I exit or repay early without this charge?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "termination",
+    "title": "One-sided termination terms",
+    "risk_level": "high",
+    "patterns": [
+      "terminate at any time",
+      "immediate termination",
+      "without cause",
+      "without notice"
+    ],
+    "reason": "The agreement may end with little warning. Check notice periods and whether there is time to fix a breach.",
+    "question": "What notice and opportunity to fix a breach will I receive?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "guarantee",
+    "title": "Personal guarantee",
+    "risk_level": "high",
+    "patterns": [
+      "personal guarantee",
+      "personally guarantee",
+      "jointly and severally"
+    ],
+    "reason": "An individual may owe another party's obligations, possibly in full. Check the scope and end date.",
+    "question": "Is the guarantee limited by amount and duration?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "deposit",
+    "title": "Deposit deductions or forfeiture",
+    "risk_level": "medium",
+    "patterns": [
+      "non-refundable deposit",
+      "forfeit the deposit",
+      "forfeited"
+    ],
+    "reason": "You may lose some or all of a deposit. Check the reasons, evidence required and return process.",
+    "question": "When is the deposit returned and which deductions are allowed?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  },
+  {
+    "id": "balloon",
+    "title": "Large final payment",
+    "risk_level": "high",
+    "patterns": [
+      "balloon payment",
+      "entire balance",
+      "immediately due"
+    ],
+    "reason": "A large amount may become due at once. Check the trigger, timing and amount.",
+    "question": "When can the full balance become payable?",
+    "reference": "Authored review heuristic; not a statement of law. Jurisdiction and contract type affect interpretation."
+  }
+]

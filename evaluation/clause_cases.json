@@ -1,0 +1,92 @@
+[
+  {
+    "title": "Renewal",
+    "text": "This rental agreement automatically renews unless the tenant gives 60 days written notice.",
+    "expected": [
+      "Automatic renewal"
+    ]
+  },
+  {
+    "title": "Unilateral fees",
+    "text": "Under this agreement the landlord may adjust fees at its sole discretion.",
+    "expected": [
+      "Terms can change without your agreement"
+    ]
+  },
+  {
+    "title": "Indemnity",
+    "text": "The tenant shall indemnify the landlord for all claims arising from the tenant's use of the property.",
+    "expected": [
+      "Broad responsibility for losses"
+    ]
+  },
+  {
+    "title": "Arbitration",
+    "text": "Disputes under this loan agreement shall be resolved by binding arbitration.",
+    "expected": [
+      "Dispute resolution restrictions"
+    ]
+  },
+  {
+    "title": "Late fee",
+    "text": "The borrower must pay a late fee of $50 for an overdue instalment.",
+    "expected": [
+      "Late payment charges"
+    ]
+  },
+  {
+    "title": "Early repayment",
+    "text": "This loan agreement includes a prepayment penalty of 2% of the remaining principal.",
+    "expected": [
+      "Cost of leaving or repaying early"
+    ]
+  },
+  {
+    "title": "Termination",
+    "text": "The landlord may terminate at any time under this agreement.",
+    "expected": [
+      "One-sided termination terms"
+    ]
+  },
+  {
+    "title": "Guarantee",
+    "text": "A personal guarantee covers the borrower's obligations under this loan agreement.",
+    "expected": [
+      "Personal guarantee"
+    ]
+  },
+  {
+    "title": "Deposit",
+    "text": "The deposit paid under this rental agreement will be forfeited for early departure.",
+    "expected": [
+      "Deposit deductions or forfeiture"
+    ]
+  },
+  {
+    "title": "Balloon",
+    "text": "The borrower owes a balloon payment of $9000 at the end of the loan term.",
+    "expected": [
+      "Large final payment"
+    ]
+  },
+  {
+    "title": "No prepayment penalty",
+    "text": "This loan agreement has no prepayment penalty.",
+    "expected": []
+  },
+  {
+    "title": "No renewal",
+    "text": "This lease does not automatically renew.",
+    "expected": []
+  },
+  {
+    "title": "Ordinary payment",
+    "text": "The tenant shall pay rent of $1000 on the first day of each month.",
+    "expected": []
+  },
+  {
+    "title": "Unrelated text",
+    "text": "The city library opens at nine and closes at six. Reading groups meet every Saturday.",
+    "expected": []
+  }
+]

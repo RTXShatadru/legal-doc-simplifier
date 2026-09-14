@@ -1,0 +1,32 @@
+name: Validate app
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: plainly
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: plainly_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U plainly -d plainly_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend-react/package-lock.json
+      - run: pip install -r backend/requirements.lock.txt pytest
+      - run: python -m pytest tests -q
+        env:
+          TEST_POSTGRES_URL: postgresql://plainly:ci-only-password@localhost:5432/plainly_test
+      - run: npm ci && npm run lint && npm run build
+        working-directory: frontend-react

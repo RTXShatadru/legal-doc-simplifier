@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/__pycache__
+**/.pytest_cache
+**/*.db*
+**/.env
+.env
+.git
+.venv
+.runtime
+work
+outputs
