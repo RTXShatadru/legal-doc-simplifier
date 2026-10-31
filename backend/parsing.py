@@ -33,7 +33,7 @@ def parse_pdf(content: bytes):
     return text, chunks, pages
 
 
-def parse_pdf_detailed(content: bytes):
+def parse_pdf_detailed(content: bytes, page_reader=None):
     if not content.startswith(b'%PDF-'):
         raise ValueError('This file is not a valid PDF.')
     try:
@@ -59,7 +59,7 @@ def parse_pdf_detailed(content: bytes):
         for i in range(len(pdf)):
             confidence = None
             if i in scanned:
-                value, confidence = ocr.read_page(pdf[i], deadline)
+                value, confidence = (page_reader or ocr.read_page)(pdf[i], deadline)
                 texts[i] = clean_text(value)
             if sum(c.isalpha() for c in texts[i]) < 8:
                 unreadable.append(i+1)

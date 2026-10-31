@@ -16,7 +16,7 @@ EMBEDDING_PROVIDER = os.getenv('EMBEDDING_PROVIDER', 'local')
 EMBEDDING_DIM = 1024 if EMBEDDING_PROVIDER == 'voyage' else 384
 JWT_SECRET = os.getenv('JWT_SECRET') or secrets.token_urlsafe(48)
 GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash-lite')
-GROQ_MODEL = os.getenv('GROQ_MODEL', 'llama-3.1-8b-instant').strip()
+GROQ_MODEL = os.getenv('GROQ_MODEL', 'openai/gpt-oss-20b').strip()
 OLLAMA_BASE_URL = os.getenv('OLLAMA_BASE_URL', 'http://127.0.0.1:11434').rstrip('/')
 OLLAMA_MODEL = os.getenv('OLLAMA_MODEL', 'qwen3:4b-instruct-2507-q4_K_M').strip()
 OLLAMA_CONTEXT = 32768
@@ -74,6 +74,10 @@ def validate():
                 or not re.fullmatch(r'[A-Za-z0-9.-]+', host)
                 or uri.scheme != 'https' or uri.netloc != host or uri.path or uri.query or uri.fragment):
             raise RuntimeError('Configure matching CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY and HTTPS CLERK_ISSUER before enabling Clerk')
+    if os.getenv('MEDICAL_IMAGE_READER','ocr') not in ('ocr','vision'):
+        raise RuntimeError('Set MEDICAL_IMAGE_READER to ocr or vision')
+    if os.getenv('MEDICAL_IMAGE_READER','ocr')=='vision' and (not os.getenv('GROQ_VISION_MODEL') or not os.getenv('GROQ_API_KEY')):
+        raise RuntimeError('Vision mode requires GROQ_VISION_MODEL and GROQ_API_KEY')
     validate_google()
     if AI_PROVIDER not in ('demo', 'gemini', 'ollama', 'groq') or EMBEDDING_PROVIDER not in ('local', 'voyage'):
         raise RuntimeError('Unsupported AI_PROVIDER or EMBEDDING_PROVIDER')
@@ -90,6 +94,6 @@ def validate():
         if not os.getenv('GROQ_API_KEY', '').strip():
             raise RuntimeError('Set GROQ_API_KEY in .env for AI_PROVIDER=groq. Use AI_PROVIDER=demo only for local testing without AI.')
         if not re.fullmatch(r'[a-zA-Z0-9._/-]+', GROQ_MODEL):
-            raise RuntimeError('Set GROQ_MODEL to a supported Groq model, such as llama-3.1-8b-instant')
+            raise RuntimeError('Set GROQ_MODEL to a supported Groq model, such as openai/gpt-oss-20b')
     if EMBEDDING_PROVIDER == 'voyage' and not os.getenv('VOYAGE_API_KEY'):
         raise RuntimeError('Set VOYAGE_API_KEY for EMBEDDING_PROVIDER=voyage')

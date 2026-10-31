@@ -26,6 +26,10 @@ documents = Table('documents', metadata,
     Column('full_text', Text, nullable=False), Column('page_count', Integer, nullable=False),
     Column('status', String(20), nullable=False), Column('summary_json', JSON),
     Column('error', Text), Column('started_at', Float))
+document_context = Table('document_context', metadata,
+    Column('doc_id', String(36), ForeignKey('documents.id', ondelete='CASCADE'), primary_key=True),
+    Column('domain', String(24), nullable=False), Column('workflow', String(24), nullable=False),
+    Column('job_match', JSON))
 clauses = Table('clauses', metadata,
     Column('id', Integer, primary_key=True), Column('doc_id', String(36), ForeignKey('documents.id', ondelete='CASCADE'), nullable=False),
     Column('clause_index', Integer, nullable=False), Column('heading', Text),
@@ -220,7 +224,7 @@ def rate_limit(subject, scope, limit, seconds):
         return conn.execute(stmt).scalar() is not None
 
 
-def create_document(user_id, filename, full_text, chunks, page_count, extraction=None):
+def create_document(user_id, filename, full_text, chunks, page_count, extraction=None, domain="property", workflow="review"):
     doc_id = str(uuid.uuid4())
     with engine.begin() as conn:
         conn.execute(select(users.c.id).where(users.c.id == user_id).with_for_update()).first()
@@ -229,6 +233,7 @@ def create_document(user_id, filename, full_text, chunks, page_count, extraction
             raise ValueError('Your library is full (50 documents). Delete a document before uploading.')
         conn.execute(documents.insert().values(id=doc_id, user_id=user_id, filename=filename, full_text=full_text,
                      page_count=page_count, uploaded_at=time.time(), status='needs_review' if extraction and extraction.get('ocr_pages') else 'queued'))
+        conn.execute(document_context.insert().values(doc_id=doc_id,domain=domain,workflow=workflow))
         conn.execute(clauses.insert(), [dict(c, doc_id=doc_id) for c in chunks])
         if extraction:
             conn.execute(document_extraction.insert().values(doc_id=doc_id, info=extraction))
@@ -236,7 +241,8 @@ def create_document(user_id, filename, full_text, chunks, page_count, extraction
 
 
 def list_documents(user_id):
-    return all_rows(select(documents.c.id, documents.c.filename, documents.c.uploaded_at, documents.c.status, documents.c.page_count)
+    return all_rows(select(documents.c.id, documents.c.filename, documents.c.uploaded_at, documents.c.status, documents.c.page_count, func.coalesce(document_context.c.domain, "property").label("domain"), func.coalesce(document_context.c.workflow, "review").label("workflow"))
+                    .select_from(documents.outerjoin(document_context))
                     .where(documents.c.user_id == user_id).order_by(documents.c.uploaded_at.desc()))
 
 
@@ -272,6 +278,7 @@ def review_source(doc_id, user_id, revised, revision):
         conn.execute(document_extraction.insert().values(doc_id=doc_id,info=info))
         for index, value in updates.items():
             conn.execute(update(clauses).where(clauses.c.doc_id==doc_id,clauses.c.clause_index==index).values(text=value,embedding=None))
+        conn.execute(update(document_context).where(document_context.c.doc_id==doc_id).values(job_match=None))
         conn.execute(delete(analysis_batches).where(analysis_batches.c.doc_id==doc_id))
         conn.execute(delete(messages).where(messages.c.doc_id==doc_id))
 
@@ -363,3 +370,31 @@ def save_chat_pair(doc_id, question, answer, sources, expected_revision=None):
 def delete_document(doc_id, user_id):
     with engine.begin() as conn:
         return bool(conn.execute(delete(documents).where(documents.c.id == doc_id, documents.c.user_id == user_id)).rowcount)
+
+
+def get_context(doc_id):
+    return one(select(document_context).where(document_context.c.doc_id==doc_id)) or {'domain':'property','workflow':'review','job_match':None}
+
+
+def save_match(doc_id, user_id, result, revision):
+    with engine.begin() as conn:
+        doc=conn.execute(select(documents).where(documents.c.id==doc_id,documents.c.user_id==user_id).with_for_update()).mappings().first()
+        if not doc or doc['status']!='ready':raise ValueError('Document changed. Refresh before matching.')
+        rows=list(conn.execute(select(clauses).where(clauses.c.doc_id==doc_id).order_by(clauses.c.clause_index)).mappings())
+        if source_revision(rows)!=revision:raise ValueError('Source text changed. Run matching again.')
+        conn.execute(update(document_context).where(document_context.c.doc_id==doc_id).values(job_match=result))
+
+
+def reclassify(doc_id, user_id, domain, workflow):
+    with engine.begin() as conn:
+        doc=conn.execute(select(documents).where(documents.c.id==doc_id,documents.c.user_id==user_id).with_for_update()).mappings().first()
+        if not doc or doc['status'] in ('queued','processing'):
+            raise ValueError('Wait for the current analysis before changing the workspace.')
+        extraction=conn.execute(select(document_extraction.c.info).where(document_extraction.c.doc_id==doc_id)).scalar() or {}
+        status='needs_review' if extraction.get('ocr_pages') and not extraction.get('user_reviewed_at') else 'queued'
+        conn.execute(delete(document_context).where(document_context.c.doc_id==doc_id))
+        conn.execute(document_context.insert().values(doc_id=doc_id,domain=domain,workflow=workflow))
+        conn.execute(delete(analysis_batches).where(analysis_batches.c.doc_id==doc_id))
+        conn.execute(delete(messages).where(messages.c.doc_id==doc_id))
+        conn.execute(update(documents).where(documents.c.id==doc_id).values(status=status,summary_json=None,error=None,started_at=None))
+    return status

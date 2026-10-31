@@ -1,3 +1,5 @@
+> Inherited base-project documentation. For the unified edition, see [INTEGRATION.md](INTEGRATION.md), [VALIDATION.md](VALIDATION.md), and the root README.
+
 # Architecture and design decisions
 
 ## Data flow

@@ -15,6 +15,7 @@ from provider_errors import ProviderError
 
 @pytest.fixture
 def groq(monkeypatch):
+    monkeypatch.setattr(groq_provider.time, 'sleep', lambda delay: None)
     monkeypatch.setenv('GROQ_API_KEY', 'test-key-not-a-real-credential')
     monkeypatch.setattr(config, 'AI_PROVIDER', 'groq')
     monkeypatch.setattr(config, 'GROQ_MODEL', 'llama-3.1-8b-instant')
@@ -82,7 +83,7 @@ def test_analysis_repairs_json_or_fabricated_sources_once(groq, monkeypatch, fir
         return next(responses)
     monkeypatch.setattr(groq_provider, 'generate', generate)
     result = llm.analyze_document([{'clause_index': 0, 'text': 'Rent is due before the fifth.', 'page': 2}])
-    assert len(calls) == 2 and 'previous response failed' in calls[1]
+    assert len(calls) == 2 and 'failed validation' in calls[1]
     assert result['model'] == 'llama-3.1-8b-instant'
     assert result['mode'] == 'groq'
     assert result['risky_clauses'][0]['page'] == 2

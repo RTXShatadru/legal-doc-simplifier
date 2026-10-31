@@ -1,6 +1,7 @@
 """Groq Chat Completions adapter; API keys and provider bodies stay on the server."""
 import json
 import os
+import time
 
 import httpx
 
@@ -25,13 +26,32 @@ def generate(system, payload, schema, max_tokens):
         'max_completion_tokens': max_tokens,
         'stream': False,
     }
+    if config.GROQ_MODEL.startswith('openai/gpt-oss'):
+        body['reasoning_effort'] = 'low'
+        body['max_completion_tokens'] = max(max_tokens, 2000)
     try:
-        with httpx.Client(timeout=httpx.Timeout(90, connect=10)) as client:
-            response = client.post(
-                'https://api.groq.com/openai/v1/chat/completions',
-                headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'},
-                json=body,
-            )
+        with httpx.Client(timeout=httpx.Timeout(90, connect=30)) as client:
+            for attempt in range(3):
+                try:
+                    response = client.post(
+                        'https://api.groq.com/openai/v1/chat/completions',
+                        headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'},
+                        json=body,
+                    )
+                except httpx.TransportError:
+                    if attempt == 2:
+                        raise
+                    time.sleep(2 ** attempt)
+                    continue
+                if response.status_code != 429 or attempt == 2:
+                    break
+                try:
+                    delay = float(response.headers.get('retry-after', '60'))
+                except ValueError:
+                    delay = 60
+                if delay > 60:
+                    break
+                time.sleep(max(1, delay) + 1)
         if response.status_code == 429:
             raise ProviderError('Groq usage limit reached. Wait for your quota to reset, then retry. Larger documents may need a higher token limit in Groq.')
         if response.status_code in (401, 403):

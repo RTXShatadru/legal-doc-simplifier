@@ -43,6 +43,17 @@ def payload_for(batch, extraction):
     return {'clauses':batch, 'extraction':quality, 'review_references':reference_set(batch)}
 
 
+def fits_review(system, payload, schema, tokens):
+    if config.AI_PROVIDER == "groq":
+        wire = json.dumps({"system":system,"payload":payload,"schema":schema}, ensure_ascii=False)
+        # ASCII prose averages several characters per token; non-ASCII uses
+        # its UTF-8 byte count as a conservative fallback. Reserve output too.
+        ascii_chars = sum(ord(c) < 128 for c in wire)
+        non_ascii_bytes = sum(len(c.encode("utf-8")) for c in wire if ord(c) >= 128)
+        return (ascii_chars + 1) // 2 + non_ascii_bytes + max(tokens, 2000) <= 7500
+    return ollama_provider.fits(system, payload, schema, tokens)
+
+
 def plan(clauses, extraction=None):
     from llm import SYSTEM, SourcedAnalysis as Analysis
     batches, current = [], []
@@ -51,13 +62,13 @@ def plan(clauses, extraction=None):
         # Bound latency as well as memory, including multibyte Hindi text.
         size = sum(len(c['text'].encode('utf-8')) for c in proposed)
         # A single larger section stays intact if it fits the hard context limit.
-        fits = (size <= 1800 or not current) and ollama_provider.fits(SYSTEM+INSTRUCTIONS+REPAIR,payload_for(proposed,extraction),Analysis.model_json_schema(),TOKENS)
+        fits = (size <= 1800 or not current) and fits_review(SYSTEM+INSTRUCTIONS+REPAIR,payload_for(proposed,extraction),Analysis.model_json_schema(),TOKENS)
         if not fits:
             if not current:
                 raise ProviderError('One section exceeds the review budget. Please use a smaller PDF section.')
             batches.append(current)
             current = [clause]
-            if not ollama_provider.fits(SYSTEM+INSTRUCTIONS+REPAIR,payload_for(current,extraction),Analysis.model_json_schema(),TOKENS):
+            if not fits_review(SYSTEM+INSTRUCTIONS+REPAIR,payload_for(current,extraction),Analysis.model_json_schema(),TOKENS):
                 raise ProviderError('One section exceeds the review budget. Please use a smaller PDF section.')
         else:
             current = proposed
@@ -82,7 +93,7 @@ def review_batch(batch, extraction):
 def review(clauses, extraction=None, doc_id=None):
     from llm import SYSTEM
     batches = plan(clauses, extraction)
-    signature = hashlib.sha256(json.dumps({'version':2,'model':config.OLLAMA_MODEL,'system':SYSTEM+INSTRUCTIONS,'batches':batches,'extraction':extraction},sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+    signature = hashlib.sha256(json.dumps({'version':2,'provider':config.AI_PROVIDER,'model':config.GROQ_MODEL if config.AI_PROVIDER == 'groq' else config.OLLAMA_MODEL,'system':SYSTEM+INSTRUCTIONS,'batches':batches,'extraction':extraction},sort_keys=True,ensure_ascii=False).encode()).hexdigest()
     state = db.batch_state(doc_id) if doc_id else None
     results = list(state['results']) if state and state['signature']==signature else []
     if doc_id:

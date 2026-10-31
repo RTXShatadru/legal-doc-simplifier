@@ -2,3 +2,66 @@
 @media(max-width:1200px){.document-main{padding:28px 26px}.document-heading{flex-wrap:wrap}.document-actions{margin-left:67px}.overview-grid{grid-template-columns:minmax(0,1fr) 230px;gap:17px}.card{padding:22px}.signal-card{padding:20px}.risk-total{gap:7px;font-size:2.6rem}.risk-total>span{font-size:.75rem}.chat-card{padding:0}}
 @media(max-width:1050px){.overview-grid{grid-template-columns:1fr}.review-rail{display:grid;grid-template-columns:1fr 1fr;gap:20px}.rail-note{padding:22px}.source-review-columns{grid-template-columns:1fr}.source-review iframe{position:static;height:45vh}}
 @media(max-width:600px){.document-main{padding:24px 18px}.back-button{margin-bottom:21px}.document-heading{gap:12px;align-items:flex-start;margin-bottom:18px}.document-title-icon{width:40px;height:49px;border-radius:10px}.document-title h1{font-size:1.5rem;line-height:1.2}.document-title>p:last-child{font-size:.75rem}.document-title .eyebrow{font-size:.75rem}.document-actions{margin:5px 0 0 52px;width:calc(100% - 52px);justify-content:space-between}.document-actions .button{font-size:.75rem;min-height:38px;padding:9px 11px}.document-actions .button svg{width:16px}.source-edit-toggle{font-size:.75rem;margin:0}.demo-banner{align-items:flex-start;flex-direction:column;gap:8px;padding:13px}.demo-banner p{font-size:.75rem}.tabs{gap:21px;margin:20px 0}.tabs>button{font-size:.75rem;gap:5px;padding:13px 1px}.tabs>button svg{width:15px}.tabs .count-badge{font-size:.75rem;min-width:17px}.card{padding:20px}.summary-text{font-size:1.04rem;line-height:1.85}.review-rail{grid-template-columns:1fr;gap:0}.rail-note{padding:24px 8px}.risk-card{padding:18px}.risk-card-heading{flex-wrap:wrap;gap:10px}.risk-card h3{font-size:.93rem}.risk-card>p{font-size:.78rem}.risk-card blockquote{font-size:.89rem;padding:13px}.risk-card-heading .source-button{font-size:.75rem}.risk-section>h2,.source-section>h2{font-size:1.5rem}.risk-filters{gap:6px}.risk-filters button{font-size:.75rem;padding:8px 11px}.source-clause>p{font-size:.8rem}.source-meta{font-size:.75rem;letter-spacing:.7px}.state-card{padding:35px 21px;min-height:320px}.state-card h2{font-size:1.5rem}.state-card p{font-size:.75rem}.review-footer{align-items:flex-start;font-size:.75rem;padding-top:21px}.source-review>.button{max-width:100%}.chat-card{padding:0}.chat-heading{padding:18px}.chat-log{padding:17px;max-height:520px;min-height:330px}.chat-intro{min-height:325px}.chat-intro h3{font-size:1.35rem}.chat-intro>p{font-size:.75rem}.suggestion{font-size:.75rem;padding:11px}.message{max-width:96%;padding:14px}.message p{font-size:.79rem}.chat-form{flex-wrap:wrap;padding:15px 14px 8px;gap:9px}.chat-form textarea{flex-basis:100%;font-size:.78rem}.chat-form .button{margin-left:auto;font-size:.75rem;min-height:39px}.chat-composer-note{padding:0 15px 11px;font-size:.75rem}.chat-disclaimer{padding:0 15px 14px;font-size:.75rem}.chat-card>.error-box{margin:9px 15px}.typing{font-size:.75rem;flex-wrap:wrap}.source-edit textarea{font-size:.77rem}}
+
+/* Document chat stays mounted while users verify source passages. */
+.chat-panel-host{scroll-margin-top:20px;min-width:0}
+.chat-panel-host[hidden]{display:none}
+.legal-library{display:grid;gap:24px;min-width:0}
+.legal-intro,.legal-scope{padding:26px}
+.legal-intro .section-heading{flex-wrap:wrap}
+.legal-intro p,.legal-scope p{line-height:1.7}
+.legal-search{display:flex;gap:10px;margin:22px 0 18px}
+.legal-search input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:#fff;color:var(--ink);font:inherit}
+.legal-controls{display:flex;align-items:flex-end;flex-wrap:wrap;gap:16px}
+.legal-filter{display:grid;gap:7px;font-size:.78rem;flex:1;min-width:200px}
+.legal-filter select{width:100%;min-width:0;font:inherit;color:inherit;border:1px solid var(--line);border-radius:9px;padding:11px;background:#fff}
+.legal-toggle{display:flex;gap:9px;align-items:center;font-size:.8rem;padding:10px 0;line-height:1.5}
+.legal-toggle input{width:17px;height:17px;accent-color:var(--green);flex-shrink:0}
+.legal-examples{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.78rem;margin-top:17px}
+.legal-results-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.legal-results-heading h3{margin:0}.legal-results-heading>span{font-size:.8rem;white-space:nowrap}
+.legal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.legal-entry{display:flex;flex-direction:column;min-width:0;padding:24px;overflow-wrap:anywhere}
+.legal-entry-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.legal-entry h3{font-size:1.18rem;line-height:1.45;margin:18px 0 6px}
+.legal-entry>p{line-height:1.75;font-size:.88rem}.legal-entry>.muted{margin-top:0}
+.legal-summary-label{font-size:.7rem;color:#626c59}
+.legal-match{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:16px;margin-top:17px;font-size:.76rem;line-height:1.6}
+.legal-match strong{font-weight:500;color:#607054}.legal-match button{text-align:left;justify-content:flex-start}
+.legal-related{display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-size:.76rem!important}
+.legal-related>span{flex-basis:100%}.legal-related button{padding:0;font-size:.78rem}
+.legal-provenance{font-size:.75rem;line-height:1.7;margin:12px 0 20px;color:#626c59}.legal-provenance summary{cursor:pointer}
+.legal-entry-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+.legal-entry-actions .button{font-size:.75rem;padding:12px 14px;text-decoration:none}
+.legal-empty{padding:38px;text-align:center}.legal-empty>svg{margin:auto}
+.legal-scope{background:#f4f7ef}.legal-scope a,.legal-chat-evidence a{color:#2b6654;text-underline-offset:3px}
+.historical{background:#fff3d8;color:#75591d;font-size:.62rem;white-space:nowrap}
+.legal-chat-controls{padding:12px 24px 0;border-top:1px solid var(--line)}
+.legal-chat-controls .legal-filter{max-width:360px;margin:8px 0}
+.legal-chat-evidence .pill{margin:8px}.legal-chat-evidence p{font-size:.8rem}
+@media(max-width:1000px){.legal-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.legal-intro,.legal-scope,.legal-entry{padding:18px}.legal-search{flex-wrap:wrap}.legal-search input{flex-basis:100%;width:100%}.legal-search .button{width:100%}.legal-filter{min-width:0;flex-basis:100%}.legal-results-heading{align-items:flex-start}.legal-entry-actions .button{flex:1}.legal-chat-controls{padding:12px 17px 0}.legal-entry-actions{flex-direction:column}}
+.chat-return{margin-bottom:18px;font-size:.78rem}
+.chat-heading{justify-content:flex-start;gap:13px}
+.chat-heading-icon{display:grid;place-items:center;flex-shrink:0;width:42px;height:42px;border:1px solid #dce7d4;border-radius:12px;background:#edf4e5;color:#53724b}
+.chat-document-context{display:flex;align-items:center;gap:8px;padding:11px 25px;background:#f7faf3;border-bottom:1px solid var(--line);color:#647159;font-size:.75rem;min-width:0}
+.chat-document-context>svg{flex-shrink:0}
+.chat-document-context>span:first-of-type{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-saved-note{margin-left:auto;white-space:nowrap;color:#667763}
+.chat-followups{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:0 24px 16px;font-size:.75rem;color:#65715d}
+.chat-followups>span{margin-right:3px}
+.chat-followups button{border:1px solid #dce7d4;border-radius:18px;background:#fbfdf8;padding:7px 11px;color:#4f6c48;text-align:left;font-size:.75rem}
+.chat-followups button:hover{background:#edf4e5}
+.document-actions{flex-wrap:wrap}
+@media(max-width:600px){
+ .document-actions{margin-left:0;width:100%;justify-content:flex-start;gap:8px}
+ .document-actions>.icon-button{margin-left:auto}
+ .chat-heading{align-items:flex-start;gap:10px}
+ .chat-heading-icon{width:36px;height:36px;border-radius:10px}
+ .chat-document-context{padding:10px 17px;flex-wrap:wrap}
+ .chat-document-context>span:first-of-type{max-width:calc(100% - 25px)}
+ .chat-saved-note{flex-basis:100%;margin-left:23px;font-size:.72rem}
+ .chat-followups{padding:0 17px 14px;gap:7px}
+ .chat-followups>span{flex-basis:100%}
+ .chat-composer-note{flex-wrap:wrap;gap:4px}
+}

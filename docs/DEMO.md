@@ -1,3 +1,5 @@
+> Inherited base-project documentation. For the unified edition, see [INTEGRATION.md](INTEGRATION.md), [VALIDATION.md](VALIDATION.md), and the root README.
+
 # Panel demonstration — 5 minutes
 
 1. **Problem (30 seconds):** show the original rental agreement wording. Explain the goal: understandable terms and better questions to ask.

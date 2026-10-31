@@ -1,3 +1,5 @@
+> Inherited base-project documentation. For the unified edition, see [INTEGRATION.md](INTEGRATION.md), [VALIDATION.md](VALIDATION.md), and the root README.
+
 # Hindi and English scans
 
 SimplyDoc uses local Tesseract OCR for image pages, including PDFs whose text layer contains only a scanner watermark. Printed Hindi and English are supported. Handwriting, signatures, maps, seals and uncertain amounts need review in the original PDF.

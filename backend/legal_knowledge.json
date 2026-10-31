@@ -1,0 +1,839 @@
+{
+  "version": "2026-10-31.1",
+  "scope": "Selected central Indian provisions only; not a complete legal database.",
+  "checked_on": "2026-10-31",
+  "sources": {
+    "IPC": {
+      "name": "Indian Penal Code, 1860",
+      "url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "sha256": "808ecb669d922b80d872d48345cd77afa65682d6e7dacd909f85834f68928de5"
+    },
+    "BNS": {
+      "name": "Bharatiya Nyaya Sanhita, 2023",
+      "url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "sha256": "7d25273c0291f8e2a5cffa7e5ce2992bfff6e8b53b85a021e850384d45a1db8d"
+    },
+    "TPA": {
+      "name": "Transfer of Property Act, 1882",
+      "url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "sha256": "e37dedf872ebb6b8ac1ef8a1fb709fdaab32ed41a44f87bd7fba139a54324e6f"
+    },
+    "ICA": {
+      "name": "Indian Contract Act, 1872",
+      "url": "https://www.indiacode.nic.in/bitstream/123456789/2187/2/A187209.pdf",
+      "note": "Selected central provisions; summaries are not the full statute.",
+      "sha256": "d756d45a58c4cd8440e70a0189ea1fda9d7c5dfcdd6ef31a5f2ecd9cb209c59d"
+    },
+    "REG17": {
+      "name": "Registration Act, 1908",
+      "url": "https://revenue.delhi.gov.in/sites/default/files/revenue/act/part_iii.pdf#page=1",
+      "note": "Central section 17 only, PDF pages 1–3. State amendments and publisher comments in this hosted copy are excluded.",
+      "sha256": "c9c1076cc99eb6b191ca6d28e76aa37482a171c220037f1cb888ec9b01f2f12c"
+    },
+    "REG49": {
+      "name": "Registration Act, 1908",
+      "url": "https://revenue.delhi.gov.in/sites/default/files/revenue/act/part_x.pdf#page=2",
+      "note": "Central section 49 and its proviso only, PDF page 2. State amendment and publisher comments are excluded.",
+      "sha256": "b65abda44e56354d8d7343a9cd327dbee5c5beba3f14e5441d67b437716df91c"
+    }
+  },
+  "mapping_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/SectionTableBNS.html",
+  "commencement_url": "https://www.indiacode.nic.in/indiacode/bitstream/123456789/20062/1/a202345.pdf",
+  "entries": [
+    {
+      "id": "IPC405",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "405",
+      "title": "Criminal breach of trust",
+      "summary": "Requires entrustment or dominion over property and dishonest misappropriation, conversion, use or disposal contrary to a legal direction or relevant contract, or wilfully allowing it. A contractual dispute alone does not establish these elements.",
+      "keywords": [
+        "breach of trust",
+        "entrusted",
+        "misappropriation",
+        "अमानत"
+      ],
+      "related": [
+        "BNS316"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC415",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "415",
+      "title": "Cheating",
+      "summary": "Defines cheating through deception and specified inducement, including delivery or retention of property, or an induced act or omission causing or likely to cause harm. Dishonest concealment can be deception. A later failure to perform a promise does not by itself show dishonest intention at the outset.",
+      "keywords": [
+        "cheating",
+        "deception",
+        "deceived",
+        "धोखाधड़ी"
+      ],
+      "related": [
+        "BNS318"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC420",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "420",
+      "title": "Cheating and dishonestly inducing delivery of property",
+      "summary": "Concerns cheating that dishonestly induces delivery of property or the making, alteration or destruction of a valuable security or something capable of becoming one. The deception and dishonest inducement must be established; a missing payment or disputed sale alone is insufficient.",
+      "keywords": [
+        "cheating",
+        "deception",
+        "dishonest inducement",
+        "धोखाधड़ी"
+      ],
+      "related": [
+        "BNS318(4)"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC423",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "423",
+      "title": "False consideration in a transfer deed",
+      "summary": "Addresses dishonest or fraudulent participation in a deed transferring or charging property that contains a false statement about consideration or the intended beneficiary. A blank field, OCR error or valuation disagreement alone does not establish the required conduct and intent.",
+      "keywords": [
+        "false consideration",
+        "false statement of consideration",
+        "false beneficiary"
+      ],
+      "related": [
+        "BNS322"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC441",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "441",
+      "title": "Criminal trespass",
+      "summary": "Requires entry onto property in another person’s possession with intent to commit an offence or to intimidate, insult or annoy, or unlawfully remaining after lawful entry with the specified intent. A boundary or ownership dispute alone is not proof of criminal trespass.",
+      "keywords": [
+        "trespass",
+        "unlawful entry",
+        "अतिक्रमण"
+      ],
+      "related": [
+        "BNS329"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC463",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "463",
+      "title": "Forgery",
+      "summary": "Addresses making a false document with specified intent, including causing injury, supporting a claim or title, inducing a transfer or contract, or committing fraud. Whether a document is false must be examined under the relevant definition; an allegation in an uploaded paper is not proof.",
+      "keywords": [
+        "forgery",
+        "forged",
+        "fake deed",
+        "जालसाजी"
+      ],
+      "related": [
+        "BNS336"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC464",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "464",
+      "title": "Making a false document",
+      "summary": "Covers specified dishonest or fraudulent acts involving false authorship or authority, material alteration without lawful authority, and causing execution by a person unable to understand the document in the stated circumstances. A false statement in a document does not automatically satisfy this definition.",
+      "keywords": [
+        "false document",
+        "fake signature",
+        "forged signature",
+        "altered deed",
+        "जाली"
+      ],
+      "related": [
+        "BNS335"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC467",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "467",
+      "title": "Forgery of valuable security, will, etc.",
+      "summary": "Concerns forgery of specified instruments, including valuable securities, wills, authorities and receipts. The instrument must fall within the statutory categories and the elements of forgery must be met; not every disputed property paper automatically qualifies.",
+      "keywords": [
+        "forged will",
+        "forged valuable security",
+        "forged deed"
+      ],
+      "related": [
+        "BNS338"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC468",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "468",
+      "title": "Forgery for the purpose of cheating",
+      "summary": "Concerns forgery committed with the intention that the forged document be used for cheating. It requires both forgery and the specified intended use, rather than merely a document discrepancy.",
+      "keywords": [
+        "forgery",
+        "forged",
+        "cheating",
+        "जालसाजी"
+      ],
+      "related": [
+        "BNS336(3)"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "IPC471",
+      "act": "IPC",
+      "act_name": "Indian Penal Code, 1860",
+      "section": "471",
+      "title": "Using a forged document as genuine",
+      "summary": "Concerns fraudulent or dishonest use of a forged document as genuine while knowing, or having reason to believe, that it is forged. Possessing or receiving a questioned document alone does not establish every element.",
+      "keywords": [
+        "forged document",
+        "forged deed",
+        "fake deed",
+        "जाली"
+      ],
+      "related": [
+        "BNS340"
+      ],
+      "source_url": "https://session.delhi.gov.in/session/indian-penal-code",
+      "source_note": "Historical reference copy; selected physical-document provisions only. Not a versioned consolidation of every amendment.",
+      "source_id": "IPC",
+      "status": "historical",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS316",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "316",
+      "title": "Criminal breach of trust",
+      "summary": "Subsection (1) defines criminal breach of trust through entrustment or dominion over property and specified dishonest handling or wilfully allowing it. Later subsections address punishment and particular roles. A mere unpaid debt or contract dispute does not automatically establish entrustment and dishonest misappropriation.",
+      "keywords": [
+        "breach of trust",
+        "entrusted",
+        "misappropriation",
+        "अमानत"
+      ],
+      "related": [
+        "IPC405"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS318",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "318",
+      "title": "Cheating",
+      "summary": "Subsection (1) defines cheating through deception and specified inducement or harm. Its illustrations distinguish dishonest intention at the time of inducement from a later breach of a promise initially made honestly. Subsection (4) addresses dishonest inducement to deliver property or deal with valuable securities.",
+      "keywords": [
+        "cheating",
+        "deception",
+        "deceived",
+        "धोखाधड़ी"
+      ],
+      "related": [
+        "IPC415",
+        "IPC420"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS318(4)",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "318(4)",
+      "title": "Cheating inducing delivery of property",
+      "summary": "Addresses cheating that dishonestly induces delivery of property, or making, altering or destroying a valuable security or something signed or sealed capable of becoming one. Verify the required deception and inducement; a property transfer itself is not evidence of cheating.",
+      "keywords": [
+        "cheating",
+        "dishonest inducement",
+        "धोखाधड़ी"
+      ],
+      "related": [
+        "IPC420"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS322",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "322",
+      "title": "False consideration in a transfer deed",
+      "summary": "Addresses dishonest or fraudulent execution of, or participation in, a property transfer or charge instrument containing a false statement about consideration or the intended beneficiary. Its wording and punishment must be checked independently of the historical IPC provision.",
+      "keywords": [
+        "false consideration",
+        "false statement of consideration",
+        "false beneficiary"
+      ],
+      "related": [
+        "IPC423"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS329",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "329",
+      "title": "Criminal trespass and house-trespass",
+      "summary": "Subsection (1) defines criminal trespass by reference to possession, entry or unlawfully remaining, and specified intent. Subsection (2) concerns house-trespass; subsections (3) and (4) provide punishment. An ownership disagreement or unauthorised entry alone is not a complete criminal finding.",
+      "keywords": [
+        "trespass",
+        "unlawful entry",
+        "अतिक्रमण"
+      ],
+      "related": [
+        "IPC441"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS335",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "335",
+      "title": "Making a false document",
+      "summary": "Defines specified dishonest or fraudulent acts involving false authorship or authority, unauthorised material alteration, or causing execution in the stated incapacity or deception circumstances. Covers documents and electronic records. A disputed recital alone does not establish all elements.",
+      "keywords": [
+        "false document",
+        "fake signature",
+        "forged signature",
+        "altered deed",
+        "जाली"
+      ],
+      "related": [
+        "IPC464"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS336",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "336",
+      "title": "Forgery",
+      "summary": "Subsection (1) addresses making a false document or electronic record with specified intent, including supporting a claim or title or committing fraud. Other subsections cover punishment and purposes including cheating. The definition of a false document and the required intent must be checked.",
+      "keywords": [
+        "forgery",
+        "forged",
+        "fake deed",
+        "जालसाजी"
+      ],
+      "related": [
+        "IPC463",
+        "IPC468"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS336(3)",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "336(3)",
+      "title": "Forgery for the purpose of cheating",
+      "summary": "Addresses committing forgery with the intention that the forged document or electronic record be used for cheating. A mismatch detected by OCR or analysis does not establish forgery or the required intent.",
+      "keywords": [
+        "forgery",
+        "forged",
+        "cheating",
+        "जालसाजी"
+      ],
+      "related": [
+        "IPC468"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS338",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "338",
+      "title": "Forgery of valuable security, will, etc.",
+      "summary": "Concerns forgery of the specified types of instruments, including valuable securities, wills, authorities and receipts. Both forgery and the statutory instrument category need to be established; the title of a property document is not sufficient by itself.",
+      "keywords": [
+        "forged will",
+        "forged valuable security",
+        "forged deed"
+      ],
+      "related": [
+        "IPC467"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS340",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "340",
+      "title": "Forged records and using them as genuine",
+      "summary": "Subsection (1) describes a forged document or electronic record. Subsection (2) addresses fraudulent or dishonest use as genuine while knowing or having reason to believe the record is forged. The source document alone cannot establish authenticity or a person’s knowledge.",
+      "keywords": [
+        "forged document",
+        "forged deed",
+        "fake deed",
+        "जाली"
+      ],
+      "related": [
+        "IPC471"
+      ],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "BNS358",
+      "act": "BNS",
+      "act_name": "Bharatiya Nyaya Sanhita, 2023",
+      "section": "358",
+      "title": "Repeal and savings",
+      "summary": "Repeals the IPC while preserving specified prior operations, liabilities, penalties, investigations, proceedings and remedies. The date and nature of the alleged conduct matter; the date of uploading or signing a document alone must not determine which criminal law governs.",
+      "keywords": [
+        "repeal",
+        "savings",
+        "ipc bns",
+        "transition",
+        "old law",
+        "new law"
+      ],
+      "related": [],
+      "source_url": "https://www.ncrb.mha.gov.in/uploads/SankalanPortal/ChaptersBNS.html",
+      "source_note": "NCRB reference text. Read the official text and applicable amendments before relying on it.",
+      "source_id": "BNS",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "TPA54",
+      "act": "TPA",
+      "act_name": "Transfer of Property Act, 1882",
+      "section": "54",
+      "title": "Sale and contract for sale",
+      "summary": "Defines sale as a transfer of ownership for a price paid, promised or partly paid and promised. Requires a registered instrument for tangible immovable property valued at ₹100 or more and for reversions or other intangible things. A contract for sale does not by itself create an interest in or charge on the property.",
+      "keywords": [
+        "sale",
+        "sale deed",
+        "agreement to sell",
+        "ownership",
+        "विक्रय",
+        "विलेख",
+        "बिक्री"
+      ],
+      "related": [],
+      "source_url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "source_note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "source_id": "TPA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "TPA55",
+      "act": "TPA",
+      "act_name": "Transfer of Property Act, 1882",
+      "section": "55",
+      "title": "Rights and liabilities of buyer and seller",
+      "summary": "Sets default rights and obligations, in the absence of a contract to the contrary, including specified disclosure of material defects in property or title, production of title documents, answering relevant questions, payment and delivery duties. Which duty applies depends on the facts and the contract.",
+      "keywords": [
+        "buyer",
+        "seller",
+        "title documents",
+        "material defect",
+        "encumbrance",
+        "विक्रेता",
+        "क्रेता"
+      ],
+      "related": [],
+      "source_url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "source_note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "source_id": "TPA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "TPA58",
+      "act": "TPA",
+      "act_name": "Transfer of Property Act, 1882",
+      "section": "58",
+      "title": "Mortgage definitions",
+      "summary": "Defines a mortgage as transfer of an interest in specific immovable property to secure specified debts or obligations, and describes mortgage types. The instrument’s substance matters; a loan or deposit of papers must not be classified solely by its label.",
+      "keywords": [
+        "mortgage",
+        "title deeds",
+        "गिरवी",
+        "बंधक"
+      ],
+      "related": [],
+      "source_url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "source_note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "source_id": "TPA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "TPA59",
+      "act": "TPA",
+      "act_name": "Transfer of Property Act, 1882",
+      "section": "59",
+      "title": "Form of a mortgage",
+      "summary": "For principal money of ₹100 or more, a mortgage other than a mortgage by deposit of title deeds requires a registered instrument signed by the mortgagor and attested by at least two witnesses. Other cases and exceptions require reading the full section.",
+      "keywords": [
+        "mortgage",
+        "mortgagor",
+        "title deeds",
+        "बंधक"
+      ],
+      "related": [],
+      "source_url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "source_note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "source_id": "TPA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "TPA105",
+      "act": "TPA",
+      "act_name": "Transfer of Property Act, 1882",
+      "section": "105",
+      "title": "Lease defined",
+      "summary": "Defines a lease of immovable property as a transfer of a right to enjoy it for a specified or implied time, or in perpetuity, for the stated consideration. Defines lessor, lessee, premium and rent. It does not turn every permission to occupy into a lease automatically.",
+      "keywords": [
+        "lease",
+        "rent",
+        "landlord",
+        "tenant",
+        "पट्टा",
+        "किराया"
+      ],
+      "related": [],
+      "source_url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "source_note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "source_id": "TPA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "TPA107",
+      "act": "TPA",
+      "act_name": "Transfer of Property Act, 1882",
+      "section": "107",
+      "title": "How leases are made",
+      "summary": "A lease from year to year, for a term exceeding one year, or reserving yearly rent requires a registered instrument under this section. It also addresses other leases and execution by lessor and lessee, subject to the stated proviso. Local tenancy laws and amendments are not covered here.",
+      "keywords": [
+        "lease",
+        "yearly rent",
+        "lease registration",
+        "पट्टा",
+        "किराया"
+      ],
+      "related": [],
+      "source_url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "source_note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "source_id": "TPA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "TPA122",
+      "act": "TPA",
+      "act_name": "Transfer of Property Act, 1882",
+      "section": "122",
+      "title": "Gift defined",
+      "summary": "Defines a gift as a voluntary transfer of certain existing property without consideration, accepted by or on behalf of the donee. Acceptance must occur during the donor’s lifetime and while the donor remains capable of giving; if the donee dies before acceptance, the gift is void.",
+      "keywords": [
+        "gift",
+        "donor",
+        "donee",
+        "उपहार",
+        "दान"
+      ],
+      "related": [],
+      "source_url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "source_note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "source_id": "TPA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "TPA123",
+      "act": "TPA",
+      "act_name": "Transfer of Property Act, 1882",
+      "section": "123",
+      "title": "Form of a gift",
+      "summary": "For a gift of immovable property, specifies a registered instrument signed by or on behalf of the donor and attested by at least two witnesses. The Act’s savings, including those concerning gifts under Muhammadan law, must also be checked; this summary is not a universal rule for every gift.",
+      "keywords": [
+        "gift deed",
+        "gift",
+        "donor",
+        "donee",
+        "दान"
+      ],
+      "related": [],
+      "source_url": "https://session.delhi.gov.in/session/transfer-property-act",
+      "source_note": "Central provisions only; local amendments, exemptions and special property laws are outside this collection.",
+      "source_id": "TPA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "REG17",
+      "act": "REG",
+      "act_name": "Registration Act, 1908",
+      "section": "17",
+      "title": "Compulsory registration",
+      "summary": "Lists instruments requiring registration, including gifts of immovable property, specified instruments affecting immovable-property rights of ₹100 or more, and certain leases. Subsection (1A) addresses contracts used for part performance; subsection (2) and the proviso contain exceptions. Not every agreement has identical registration requirements.",
+      "keywords": [
+        "registration",
+        "registered",
+        "unregistered",
+        "sale deed",
+        "gift deed",
+        "पंजीकरण",
+        "रजिस्ट्री"
+      ],
+      "related": [],
+      "source_url": "https://revenue.delhi.gov.in/sites/default/files/revenue/act/part_iii.pdf#page=1",
+      "source_note": "Central section 17 only, PDF pages 1–3. State amendments and publisher comments in this hosted copy are excluded.",
+      "source_id": "REG17",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "REG49",
+      "act": "REG",
+      "act_name": "Registration Act, 1908",
+      "section": "49",
+      "title": "Effect of non-registration",
+      "summary": "Limits the property effect and evidentiary use of documents required to be registered but left unregistered. The proviso allows specified use as evidence of a contract in a specific-performance suit or of a collateral transaction not requiring a registered instrument. Do not treat every unregistered paper as automatically void or unusable for every purpose.",
+      "keywords": [
+        "unregistered",
+        "non-registration",
+        "registration",
+        "registered",
+        "पंजीकरण",
+        "रजिस्ट्री"
+      ],
+      "related": [],
+      "source_url": "https://revenue.delhi.gov.in/sites/default/files/revenue/act/part_x.pdf#page=2",
+      "source_note": "Central section 49 and its proviso only, PDF page 2. State amendment and publisher comments are excluded.",
+      "source_id": "REG49",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "ICA10",
+      "act": "ICA",
+      "act_name": "Indian Contract Act, 1872",
+      "section": "10",
+      "title": "What agreements are contracts",
+      "summary": "Requires free consent of competent parties, lawful consideration and object, and that the agreement not be expressly declared void. Preserves other laws requiring writing, witnesses or registration. Merely signing a paper does not establish all these conditions.",
+      "keywords": [
+        "contract",
+        "agreement",
+        "consent",
+        "समझौता",
+        "अनुबंध"
+      ],
+      "related": [],
+      "source_url": "https://www.indiacode.nic.in/bitstream/123456789/2187/2/A187209.pdf",
+      "source_note": "Selected central provisions; summaries are not the full statute.",
+      "source_id": "ICA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "ICA17",
+      "act": "ICA",
+      "act_name": "Indian Contract Act, 1872",
+      "section": "17",
+      "title": "Fraud in contractual consent",
+      "summary": "Defines specified acts committed with intent to deceive or induce entry into a contract, including knowing false assertions, active concealment and a promise made without intention to perform. Mere silence is generally not fraud unless there is a duty to speak or silence itself is equivalent to speech.",
+      "keywords": [
+        "fraud",
+        "concealment",
+        "deception",
+        "धोखाधड़ी"
+      ],
+      "related": [],
+      "source_url": "https://www.indiacode.nic.in/bitstream/123456789/2187/2/A187209.pdf",
+      "source_note": "Selected central provisions; summaries are not the full statute.",
+      "source_id": "ICA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "ICA18",
+      "act": "ICA",
+      "act_name": "Indian Contract Act, 1872",
+      "section": "18",
+      "title": "Misrepresentation",
+      "summary": "Covers specified unwarranted positive assertions believed true, certain breaches of duty without intent to deceive, and causing a mistake about the substance of the agreement. Distinguish these consent issues from criminal offences rather than assuming they are the same.",
+      "keywords": [
+        "misrepresentation",
+        "false representation",
+        "mistake"
+      ],
+      "related": [],
+      "source_url": "https://www.indiacode.nic.in/bitstream/123456789/2187/2/A187209.pdf",
+      "source_note": "Selected central provisions; summaries are not the full statute.",
+      "source_id": "ICA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    },
+    {
+      "id": "ICA19",
+      "act": "ICA",
+      "act_name": "Indian Contract Act, 1872",
+      "section": "19",
+      "title": "Voidability where consent is not free",
+      "summary": "Provides for voidability at the affected party’s option where consent was caused by coercion, fraud or misrepresentation, and describes an alternative remedy for fraud or misrepresentation. The ordinary-diligence exception for misrepresentation or fraudulent silence and the requirement that the conduct caused consent must be considered.",
+      "keywords": [
+        "consent",
+        "coercion",
+        "misrepresentation",
+        "voidable",
+        "fraud",
+        "सहमति"
+      ],
+      "related": [],
+      "source_url": "https://www.indiacode.nic.in/bitstream/123456789/2187/2/A187209.pdf",
+      "source_note": "Selected central provisions; summaries are not the full statute.",
+      "source_id": "ICA",
+      "status": "central",
+      "jurisdiction": "India — central law",
+      "checked_on": "2026-10-31"
+    }
+  ]
+}

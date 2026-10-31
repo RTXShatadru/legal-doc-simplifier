@@ -28,5 +28,5 @@ jobs:
       - run: python -m pytest tests -q
         env:
           TEST_POSTGRES_URL: postgresql://plainly:ci-only-password@localhost:5432/plainly_test
-      - run: npm ci && npm run lint && npm run build
+      - run: npm ci && npm run lint && npm test && npm run build
         working-directory: frontend-react

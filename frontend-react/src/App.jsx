@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "./api";
 import AuthScreen from "./components/AuthScreen";
-import UploadZone from "./components/UploadZone";
+import { allowedFiles } from "./workspaces";
 import DocumentView from "./components/DocumentView";
 import DocumentLibrary from "./components/DocumentLibrary";
 import { statusLabel } from "./documentUtils";
@@ -25,6 +25,7 @@ function googleNotice() {
 
 export default function App({ onSignOut }) {
   const [user, setUser] = useState(null), [loading, setLoading] = useState(true);
+  const [workspace, setWorkspace] = useState("all"), [workflow,setWorkflow] = useState("review");
   const [health, setHealth] = useState(null), [docs, setDocs] = useState([]);
   const [active, setActive] = useState(null), [busy, setBusy] = useState(false), [notice, setNotice] = useState(googleNotice);
   const [providers, setProviders] = useState(null), [linking, setLinking] = useState(false);
@@ -88,11 +89,12 @@ export default function App({ onSignOut }) {
   }
   async function upload(file) {
     if (uploadLock.current) return;
-    if (!file.name.toLowerCase().endsWith('.pdf')) { setNotice('Please choose a PDF file.'); return; }
+    const domain = workspace === "all" ? "property" : workspace;
+    if (!allowedFiles(domain).split(",").some(ext=>file.name.toLowerCase().endsWith(ext))) { setNotice("Choose a supported file for this workspace: "+allowedFiles(domain)); return; }
     if (!file.size) { setNotice('This file is empty. Please choose a readable PDF.'); return; }
     if (file.size > 10 * 1024 * 1024) { setNotice('Please choose a PDF smaller than 10 MB.'); return; }
     uploadLock.current = true; setBusy(true); setNotice(''); setMenuOpen(false);
-    try { const result = await api.uploadDocument(file); await refresh(); openDocument(result.doc_id); }
+    try { const result = await api.uploadDocument(file,domain,workflow); await refresh(); openDocument(result.doc_id); }
     catch (e) { setNotice(e.message); }
     finally { uploadLock.current = false; setBusy(false); }
   }
@@ -112,23 +114,22 @@ export default function App({ onSignOut }) {
     catch (e) { setNotice(e.message); }
   }
   if (loading) return <div className="full-loading"><Brand/><span className="spinner"/><p>Opening your workspace…</p></div>;
-  const live = ['gemini', 'ollama', 'groq'].includes(health?.ai_provider);
   return <>{!user ? <AuthScreen onAuthenticated={authenticated} health={health} googleAvailable={providers?.google}/> : <div className="shell">
     <a href="#main-content" className="skip-link">Skip to content</a>
     {menuOpen && <div className="sidebar-overlay" onClick={() => setMenuOpen(false)} aria-hidden="true"/>}
     <aside ref={sidebarRef} id="workspace-navigation" className={'sidebar ' + (menuOpen ? 'is-open' : '')} aria-label="Workspace navigation" role={menuOpen ? 'dialog' : undefined} aria-modal={menuOpen || undefined}>
       <div className="sidebar-brand"><Brand/><button ref={closeButton} className="icon-button mobile-only" aria-label="Close navigation" onClick={() => setMenuOpen(false)}><Icon name="close"/></button></div>
       <div className="workspace-label"><span className="workspace-avatar">P</span><div>Personal workspace<small>Make room for clarity</small></div><Icon name="chevron" size={14}/></div>
-      <UploadZone compact onFileSelected={upload} busy={busy}/>
+      <button className="button primary wide" disabled={busy} onClick={()=>{openDocument(null);setTimeout(()=>document.getElementById("upload-start")?.scrollIntoView({behavior:"smooth"}),50);}}><Icon name="plus"/>New document</button>
       <button className={'library-home ' + (!active ? 'selected' : '')} onClick={() => openDocument(null)}><Icon name="grid"/>All documents <span>{docs.length}</span></button>
       <div className="sidebar-label">RECENT DOCUMENTS <Icon name="clock" size={13}/></div><div className="doc-list">
         {docs.length === 0 && <p className="sidebar-empty">A home for your documents.<br/>Upload one to get started.</p>}
         {docs.slice(0, 12).map(d => <button key={d.id} title={d.filename} className={'doc-item ' + (d.id === active ? 'selected' : '')} onClick={() => openDocument(d.id)}><Icon size={17}/><span className="doc-item-text">{d.filename}<small><i className={'status-dot ' + d.status}/>{statusLabel(d.status)}</small></span></button>)}
       </div><div className="sidebar-bottom">{providers?.google && (user.google_connected ? <p className="google-connected">Google connected</p> : <GoogleButton label="Connect Google" onClick={connectGoogle} busy={linking}/>)}<div className="sidebar-assurance"><Icon name="shield"/><div><strong>A little peace of mind.</strong><span>Your documents belong to your account. You control when to delete them.</span></div></div><div className="user-bar"><span className="user-avatar">{user.email[0].toUpperCase()}</span><div><strong>Personal account</strong><span title={user.email}>{user.email}</span></div><button className="icon-button" aria-label="Sign out" title="Sign out" onClick={logout}><Icon name="exit" size={18}/></button></div></div>
     </aside>
-    <div className="workspace" inert={menuOpen || undefined}><header className="topbar"><div className="breadcrumb"><button ref={menuButton} className="icon-button mobile-only" aria-label="Open navigation" aria-expanded={menuOpen} aria-controls="workspace-navigation" onClick={() => setMenuOpen(true)}><Icon name="menu"/></button><Icon name="grid" size={16}/><span>Workspace</span><span className="slash">/</span><strong>{active ? 'Document review' : 'All documents'}</strong></div><span className={'mode-pill ' + (live ? 'live' : '')}>{health ? health.ai_provider === 'groq' ? (health.ai_model === 'llama-3.1-8b-instant' ? 'Groq · Llama 8B' : 'Groq AI') : health.ai_provider === 'ollama' ? 'Local AI' : health.ai_provider === 'gemini' ? 'Gemini AI' : 'Local demo' : 'Connecting…'}</span></header>
+    <div className="workspace" inert={menuOpen || undefined}><header className="topbar"><div className="breadcrumb"><button ref={menuButton} className="icon-button mobile-only" aria-label="Open navigation" aria-expanded={menuOpen} aria-controls="workspace-navigation" onClick={() => setMenuOpen(true)}><Icon name="menu"/></button><Icon name="grid" size={16}/><span>Workspace</span><span className="slash">/</span><strong>{active ? 'Document review' : 'All documents'}</strong></div></header>
     {health?.ai_provider === 'ollama' && <div className="extraction-banner provider-banner" role="status"><strong>{health.ai_ready ? 'Local model ready' : 'Local model setup needed'}</strong><p>{health.ai_message}</p><button className="text-button" onClick={() => api.health().then(setHealth).catch(e => setNotice(e.message))}>Check again</button></div>}
-    {active ? <DocumentView key={active} docId={active} onReady={refresh} onDelete={remove} onBack={() => openDocument(null)}/> : <DocumentLibrary docs={docs} busy={busy} onUpload={upload} onSample={sample} onOpen={openDocument} health={health} loading={docsLoading} error={docsError} onRefresh={refresh}/>}
+    {active ? <DocumentView key={active} docId={active} onReady={refresh} onDelete={remove} onBack={() => openDocument(null)}/> : <DocumentLibrary workspace={workspace} onWorkspace={value=>{setWorkspace(value);setWorkflow("review");}} workflow={workflow} onWorkflow={setWorkflow} docs={docs} busy={busy} onUpload={upload} onSample={sample} onOpen={openDocument} health={health} loading={docsLoading} error={docsError} onRefresh={refresh}/>}
     </div></div>}
     {notice && <div className="notice" role="alert"><Icon name="alert" size={19}/><span>{notice}</span><button className="icon-button" aria-label="Dismiss message" onClick={() => setNotice('')}><Icon name="close"/></button></div>}
   </>;

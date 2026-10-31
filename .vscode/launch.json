@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run SimplyDoc (port 8002)",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "module": "uvicorn",
+      "args": ["main:app", "--app-dir", "backend", "--host", "127.0.0.1", "--port", "8002"],
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "console": "internalConsole",
+      "redirectOutput": true,
+      "justMyCode": true
+    }
+  ]
+}

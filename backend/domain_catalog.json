@@ -1,0 +1,1014 @@
+{
+  "finance": {
+    "id": "finance",
+    "name": "Finance",
+    "description": "Loan agreements, credit card terms, insurance policies",
+    "accepts": "Loan agreements, credit card terms, insurance policies",
+    "reader": "borrower",
+    "example_document_type": "Personal Loan Agreement",
+    "disclaimer": "General information, not legal or financial advice.",
+    "key_term_hints": [
+      "Interest rate",
+      "Loan amount",
+      "Repayment period or monthly instalment",
+      "Late payment penalty",
+      "Fees and charges",
+      "Collateral or guarantor"
+    ],
+    "chat_suggestions": [
+      "What happens if I miss a payment?",
+      "Can I repay this early without a fee?",
+      "Which clause should I negotiate first?",
+      "Explain this to me like I'm 15"
+    ],
+    "features": {
+      "chat": true
+    },
+    "extra_sections": [
+      "missing"
+    ],
+    "sections": {
+      "risks": {
+        "title": "Watch out for"
+      },
+      "missing": {
+        "title": "Not mentioned in this document",
+        "note": "Worth asking the lender about, because the document stays silent on these."
+      }
+    },
+    "upload_warning": "Remove Aadhaar, PAN, bank account and card numbers before uploading.",
+    "guardrails": [
+      "Never tell the person whether to sign or not; explain the terms and the risks.",
+      "Do not give investment or tax advice."
+    ],
+    "role": "You are an expert in consumer finance contracts such as loan agreements, credit card terms and insurance policies. You help ordinary people understand what they are signing.",
+    "risk_checklist": [
+      "Interest rate, compounding method and whether the rate is variable or can change",
+      "Late payment penalties and how they are calculated (convert to a yearly % if possible)",
+      "Prepayment or foreclosure charges",
+      "Processing, hidden, or administrative fees",
+      "Clauses letting the lender change terms unilaterally or without notice",
+      "Collateral, guarantor or co-signer obligations",
+      "Acceleration clauses (lender demands full repayment immediately)",
+      "Cross-default clauses and automatic debit permissions",
+      "Waiver of the borrower's rights, or forced arbitration",
+      "Vague or undefined terms that favour the lender"
+    ],
+    "glossary": [
+      {
+        "term": "Principal",
+        "aliases": [
+          "principal"
+        ],
+        "meaning": "The original amount of money you borrow, before any interest is added."
+      },
+      {
+        "term": "Per annum",
+        "aliases": [
+          "per annum",
+          "p.a",
+          "per year"
+        ],
+        "meaning": "Latin for 'per year'. A rate of 12% per annum means 12% of the amount owed, each year."
+      },
+      {
+        "term": "Compound interest",
+        "aliases": [
+          "compounded",
+          "compounding",
+          "compound interest"
+        ],
+        "meaning": "Interest charged on your balance plus the interest already added. It grows faster than simple interest because you pay interest on interest."
+      },
+      {
+        "term": "Simple interest",
+        "aliases": [
+          "simple interest"
+        ],
+        "meaning": "Interest calculated only on the original amount borrowed, never on past interest."
+      },
+      {
+        "term": "APR (annual percentage rate)",
+        "aliases": [
+          "annual percentage rate"
+        ],
+        "meaning": "The yearly cost of borrowing including fees, not just the interest rate. It is the best number for comparing loans."
+      },
+      {
+        "term": "EMI (equated monthly instalment)",
+        "aliases": [
+          "emi",
+          "equated monthly instalment",
+          "equated monthly installment"
+        ],
+        "meaning": "A fixed amount you pay every month, made up of part of the principal and part of the interest."
+      },
+      {
+        "term": "Fixed vs floating rate",
+        "aliases": [
+          "floating rate",
+          "variable rate",
+          "fixed rate",
+          "fixed interest"
+        ],
+        "meaning": "A fixed rate stays the same for the whole loan. A floating (variable) rate can go up or down, so your payments can change."
+      },
+      {
+        "term": "Late payment penalty",
+        "aliases": [
+          "penalty",
+          "penal interest",
+          "late fee",
+          "late payment"
+        ],
+        "meaning": "An extra charge when you pay after the due date. Check how it is calculated, because a monthly penalty adds up to a much bigger yearly cost."
+      },
+      {
+        "term": "Default",
+        "aliases": [
+          "default",
+          "defaults",
+          "in default"
+        ],
+        "meaning": "Failing to do what the loan agreement requires, most often missing payments. It usually triggers penalties and can lead to the lender demanding all the money back."
+      },
+      {
+        "term": "Acceleration clause",
+        "aliases": [
+          "acceleration",
+          "accelerate",
+          "immediately due and payable",
+          "become due and payable"
+        ],
+        "meaning": "A clause letting the lender demand the entire remaining loan at once, usually after you default."
+      },
+      {
+        "term": "Cross-default",
+        "aliases": [
+          "cross-default",
+          "cross default"
+        ],
+        "meaning": "If you default on any other loan, the lender can treat this loan as defaulted too."
+      },
+      {
+        "term": "Collateral / security",
+        "aliases": [
+          "collateral",
+          "hypothecation",
+          "pledge",
+          "pledged",
+          "mortgage"
+        ],
+        "meaning": "Something valuable (a house, a car, gold) you promise the lender can take if you do not repay."
+      },
+      {
+        "term": "Guarantor",
+        "aliases": [
+          "guarantor",
+          "guarantee",
+          "guaranteed"
+        ],
+        "meaning": "A person who promises to repay your loan if you cannot. They are legally responsible for it."
+      },
+      {
+        "term": "Co-borrower / co-signer",
+        "aliases": [
+          "co-borrower",
+          "co-signer",
+          "cosigner",
+          "co-applicant"
+        ],
+        "meaning": "A second person who shares responsibility for the whole loan, not just half of it."
+      },
+      {
+        "term": "Prepayment / foreclosure",
+        "aliases": [
+          "prepayment",
+          "pre-payment",
+          "foreclosure",
+          "pre-closure",
+          "early repayment",
+          "prepay"
+        ],
+        "meaning": "Paying off the loan before the end date. Some lenders charge a fee for this, so always check."
+      },
+      {
+        "term": "Processing fee",
+        "aliases": [
+          "processing fee",
+          "administrative fee",
+          "origination fee",
+          "documentation charges"
+        ],
+        "meaning": "A one-time charge for setting up the loan, often taken from the amount you receive."
+      },
+      {
+        "term": "Amortization",
+        "aliases": [
+          "amortization",
+          "amortisation"
+        ],
+        "meaning": "The schedule showing how each payment is split between principal and interest over the life of the loan."
+      },
+      {
+        "term": "Grace period",
+        "aliases": [
+          "grace period",
+          "grace days"
+        ],
+        "meaning": "Extra days after the due date during which you can still pay without a penalty."
+      },
+      {
+        "term": "Lock-in period",
+        "aliases": [
+          "lock-in",
+          "lock in period"
+        ],
+        "meaning": "A time during which you cannot close or repay the loan early without a charge."
+      },
+      {
+        "term": "Auto-debit / standing instruction",
+        "aliases": [
+          "auto-debit",
+          "auto debit",
+          "automatic debit",
+          "standing instruction",
+          "nach",
+          "ecs mandate"
+        ],
+        "meaning": "Permission for the lender to take payments directly from your bank account on the due date."
+      },
+      {
+        "term": "Arbitration",
+        "aliases": [
+          "arbitration",
+          "arbitrator"
+        ],
+        "meaning": "Settling a dispute privately through an arbitrator instead of going to court. Forced arbitration can limit your options."
+      },
+      {
+        "term": "Waiver",
+        "aliases": [
+          "waiver",
+          "waive",
+          "waives"
+        ],
+        "meaning": "Giving up a right you would normally have. Read carefully, because waivers usually favour the lender."
+      },
+      {
+        "term": "Indemnity",
+        "aliases": [
+          "indemnify",
+          "indemnity",
+          "indemnification"
+        ],
+        "meaning": "A promise to cover the other party's losses or costs, which can make you responsible for the lender's expenses."
+      },
+      {
+        "term": "Lien",
+        "aliases": [
+          "lien"
+        ],
+        "meaning": "A legal claim on your property until the debt is paid."
+      },
+      {
+        "term": "Moratorium",
+        "aliases": [
+          "moratorium"
+        ],
+        "meaning": "A period during which you are allowed to pause repayments. Interest may still be charged."
+      },
+      {
+        "term": "Balloon payment",
+        "aliases": [
+          "balloon payment",
+          "balloon"
+        ],
+        "meaning": "A very large final payment due at the end, after smaller payments before it."
+      }
+    ]
+  },
+  "hr": {
+    "id": "hr",
+    "name": "HR & Employment",
+    "description": "Resumes, job matching and employment contracts",
+    "accepts": "Offer letters, appointment letters, employment contracts, NDAs, internship and service-bond agreements",
+    "role": "You are an expert in employment documents such as offer letters, appointment letters, employment contracts, NDAs, non-compete clauses, internship agreements and service-bond agreements. You help employees understand what they are about to sign before they accept a job.",
+    "reader": "employee",
+    "example_document_type": "Employment Offer Letter",
+    "disclaimer": "General information, not legal advice. Employment rules differ by country and state.",
+    "features": {
+      "chat": true
+    },
+    "chat_suggestions": [
+      "What does this document say about my notice period?",
+      "Explain the probation terms in plain language",
+      "Which salary and benefit details are stated?"
+    ],
+    "extra_sections": [
+      "questions_to_ask",
+      "missing"
+    ],
+    "sections": {
+      "risks": {
+        "title": "Clauses to look at closely"
+      },
+      "questions_to_ask": {
+        "title": "Ask HR before you sign",
+        "note": "Try to get the answers in writing, ideally in the final document."
+      },
+      "missing": {
+        "title": "Not mentioned in this document",
+        "note": "Employment documents usually cover these. Ask for them in writing."
+      }
+    },
+    "upload_warning": "Remove Aadhaar, PAN, bank account numbers and your home address before uploading.",
+    "guardrails": [
+      "Never tell the person to accept or reject the offer, or to resign; explain the terms and the risks.",
+      "Do not state that a clause is illegal or unenforceable. Say it may be worth checking with a lawyer or the labour department."
+    ],
+    "risk_checklist": [
+      "Notice period length, whether it is the same for employer and employee, and any buy-out or pay-in-lieu terms",
+      "Service bond, minimum service period, or training-cost recovery if the employee leaves early",
+      "Clawback of joining bonus, relocation or sign-on payments",
+      "Probation length, how it can be extended, and different terms during probation",
+      "Salary structure: fixed vs variable pay, whether bonuses are guaranteed or discretionary, and the gap between total package (CTC) and take-home pay",
+      "Non-compete, non-solicit or exclusivity clauses after leaving, or bans on side work during employment",
+      "Intellectual property clauses that claim work done in the employee's own time or unrelated to the job",
+      "Confidentiality (NDA) scope and how long it lasts",
+      "Termination terms: dismissal without notice or cause, one-sided rights, and what happens to unpaid dues",
+      "Employer keeping original certificates or documents",
+      "Offer conditions: background verification, withdrawal of the offer, and the right to change role, location or terms later",
+      "Vague terms such as 'as per company policy' where the policy is not attached",
+      "Dispute resolution: forced arbitration or courts in a distant city"
+    ],
+    "key_term_hints": [
+      "Job title and department",
+      "Salary or total package (CTC)",
+      "Joining date and work location",
+      "Probation period",
+      "Notice period",
+      "Service bond or minimum stay",
+      "Non-compete or confidentiality terms"
+    ],
+    "glossary": [
+      {
+        "term": "CTC (cost to company)",
+        "aliases": [
+          "ctc",
+          "cost to company",
+          "total package"
+        ],
+        "meaning": "The total yearly amount the company spends on you, including benefits and employer contributions. Your take-home pay is usually lower."
+      },
+      {
+        "term": "Take-home salary",
+        "aliases": [
+          "take-home",
+          "take home",
+          "in-hand",
+          "in hand",
+          "net salary",
+          "net pay"
+        ],
+        "meaning": "What reaches your bank account each month after deductions such as tax and provident fund."
+      },
+      {
+        "term": "Probation",
+        "aliases": [
+          "probation",
+          "probationary"
+        ],
+        "meaning": "A trial period at the start of a job. Notice, leave and other terms are often different during this time."
+      },
+      {
+        "term": "Notice period",
+        "aliases": [
+          "notice period",
+          "period of notice"
+        ],
+        "meaning": "How long you or the employer must give notice before ending the job. You usually keep working and being paid during this time."
+      },
+      {
+        "term": "Notice buy-out",
+        "aliases": [
+          "buy-out",
+          "buyout",
+          "buy out",
+          "pay in lieu",
+          "in lieu of notice"
+        ],
+        "meaning": "Paying money instead of working through the notice period. Check who may use this option and how the amount is calculated."
+      },
+      {
+        "term": "Service bond",
+        "aliases": [
+          "service bond",
+          "bond period",
+          "minimum service",
+          "training bond",
+          "minimum stay"
+        ],
+        "meaning": "An agreement that you will stay for a minimum time, or repay money (such as training costs) if you leave early."
+      },
+      {
+        "term": "Clawback",
+        "aliases": [
+          "clawback",
+          "claw back",
+          "claw-back"
+        ],
+        "meaning": "The company's right to take back money it paid you earlier, such as a joining bonus, if you leave too soon."
+      },
+      {
+        "term": "Non-compete",
+        "aliases": [
+          "non-compete",
+          "non compete",
+          "noncompete"
+        ],
+        "meaning": "A promise not to work for a competitor, or start a competing business, for some time after you leave. Whether it can be enforced depends on local law."
+      },
+      {
+        "term": "Non-solicit",
+        "aliases": [
+          "non-solicit",
+          "non solicit",
+          "nonsolicit"
+        ],
+        "meaning": "A promise not to take the company's clients or employees with you when you leave."
+      },
+      {
+        "term": "Confidentiality / NDA",
+        "aliases": [
+          "confidentiality",
+          "non-disclosure",
+          "nda",
+          "confidential information"
+        ],
+        "meaning": "A promise to keep certain company information secret, sometimes even after you leave."
+      },
+      {
+        "term": "Intellectual property (IP)",
+        "aliases": [
+          "intellectual property",
+          "work product",
+          "inventions"
+        ],
+        "meaning": "Things you create, such as code, designs or writing. IP clauses say who owns them. Check whether they cover only work for the company or also your own time."
+      },
+      {
+        "term": "Variable pay",
+        "aliases": [
+          "variable pay",
+          "performance bonus",
+          "incentive"
+        ],
+        "meaning": "Pay that depends on performance or company results and may not be guaranteed."
+      },
+      {
+        "term": "Discretionary",
+        "aliases": [
+          "discretion",
+          "discretionary",
+          "sole discretion"
+        ],
+        "meaning": "The company decides, with no obligation. If a bonus is discretionary, you may not be able to demand it."
+      },
+      {
+        "term": "Provident fund (PF)",
+        "aliases": [
+          "provident fund",
+          "epf",
+          "pf contribution"
+        ],
+        "meaning": "A retirement savings scheme where both you and the employer contribute part of your salary."
+      },
+      {
+        "term": "Gratuity",
+        "aliases": [
+          "gratuity"
+        ],
+        "meaning": "A lump sum paid by the employer for long service, usually after a minimum number of years with the company."
+      },
+      {
+        "term": "Background verification",
+        "aliases": [
+          "background verification",
+          "background check",
+          "bgv",
+          "reference check"
+        ],
+        "meaning": "Checks on your past jobs, education or records. Offers are often conditional on passing them."
+      },
+      {
+        "term": "Full and final settlement",
+        "aliases": [
+          "full and final",
+          "relieving letter",
+          "experience letter"
+        ],
+        "meaning": "The last payment of your dues when you leave. Relieving and experience letters are the documents you should receive at exit."
+      },
+      {
+        "term": "Arbitration",
+        "aliases": [
+          "arbitration",
+          "arbitrator"
+        ],
+        "meaning": "Settling a dispute privately through an arbitrator instead of a court. Check where it takes place and who chooses the arbitrator."
+      },
+      {
+        "term": "Jurisdiction",
+        "aliases": [
+          "jurisdiction"
+        ],
+        "meaning": "Which courts, and which city's or country's laws, will apply if there is a dispute."
+      }
+    ]
+  },
+  "medical": {
+    "id": "medical",
+    "name": "Medical",
+    "description": "Medical reports, prescriptions, insurance and hospital paperwork",
+    "accepts": "Health insurance policies, hospital consent and admission forms, medical bills and discharge summaries",
+    "role": "You are an expert in health insurance policies and hospital paperwork such as consent forms, admission forms, estimates, bills and discharge summaries. You explain what a document says in plain language, so patients understand what they are agreeing to and what is covered. You explain documents; you do not give medical advice.",
+    "reader": "patient",
+    "example_document_type": "Health Insurance Policy",
+    "disclaimer": "This explains the document, not your health. It is not medical, legal or insurance advice. Ask your doctor about your health and your insurer about your claim.",
+    "features": {
+      "chat": true
+    },
+    "extra_sections": [
+      "questions_to_ask",
+      "missing"
+    ],
+    "sections": {
+      "risks": {
+        "title": "Watch out for"
+      },
+      "questions_to_ask": {
+        "title": "Ask the insurer or hospital",
+        "note": "Good questions to ask before you sign or file a claim."
+      },
+      "missing": {
+        "title": "Not mentioned in this document",
+        "note": "Documents of this type usually cover these. Ask for them in writing."
+      }
+    },
+    "upload_warning": "Health records are very sensitive. Use a sample or edited copy: remove your name, patient ID, Aadhaar, policy number and phone number before uploading.",
+    "guardrails": [
+      "Explain only what the document states; do not diagnose, recommend treatments, infer health status, or suggest medicine or dose changes.",
+      "Copy reported values and reference ranges exactly. Only describe a value as outside a range when that range is explicitly printed in the source.",
+      "Never guess handwriting, medicine names, doses, dates or numbers. Preserve uncertainty markers and ask the reader to verify with their clinician or pharmacist.",
+      "Do not promise claim approval."
+    ],
+    "risk_checklist": [
+      "Waiting periods: the initial waiting period, the waiting period for pre-existing diseases, and waiting periods for specific illnesses",
+      "Exclusions: treatments, conditions or situations the policy will not pay for",
+      "Room rent limits and 'proportionate deduction' that can reduce the whole claim",
+      "Sub-limits on specific treatments, and caps on the total amount payable (sum insured)",
+      "Co-payment and deductible: the share of the bill the patient must pay",
+      "Items that are not payable, such as consumables and administrative charges",
+      "Claim process: deadlines to inform the insurer, cashless vs reimbursement, documents needed",
+      "Pre-existing conditions: the duty to disclose them, and claim rejection or cancellation for non-disclosure",
+      "Renewal: premium increases, age-based loading, and conditions for renewing or cancelling",
+      "Hospital forms: consent to 'any necessary' treatment without details, and consent to share medical records",
+      "Financial responsibility: advance deposits, estimates that can change, and the patient paying for uncovered amounts",
+      "Waivers: giving up the right to complain or claim, discharge against medical advice, and limits on the hospital's liability"
+    ],
+    "key_term_hints": [
+      "Type of document",
+      "Sum insured or coverage amount",
+      "Premium",
+      "Waiting periods",
+      "Co-payment or deductible",
+      "Main exclusions",
+      "Claim deadline",
+      "Room rent limit"
+    ],
+    "chat_suggestions": [
+      "What is not covered?",
+      "How do I make a claim, and by when?",
+      "What does the waiting period mean for me?",
+      "Explain the medical terms in this document"
+    ],
+    "glossary": [
+      {
+        "term": "Premium",
+        "aliases": [
+          "premium",
+          "premiums"
+        ],
+        "meaning": "The amount you pay, monthly or yearly, to keep the policy active."
+      },
+      {
+        "term": "Sum insured",
+        "aliases": [
+          "sum insured",
+          "sum assured",
+          "coverage amount",
+          "cover amount"
+        ],
+        "meaning": "The maximum amount the insurer will pay in a policy year."
+      },
+      {
+        "term": "Deductible",
+        "aliases": [
+          "deductible"
+        ],
+        "meaning": "A fixed amount you pay yourself before the insurer starts paying."
+      },
+      {
+        "term": "Co-payment",
+        "aliases": [
+          "co-payment",
+          "copayment",
+          "co-pay",
+          "copay"
+        ],
+        "meaning": "A percentage of every claim that you pay yourself."
+      },
+      {
+        "term": "Waiting period",
+        "aliases": [
+          "waiting period"
+        ],
+        "meaning": "A time after buying the policy during which some or all claims are not paid."
+      },
+      {
+        "term": "Pre-existing condition",
+        "aliases": [
+          "pre-existing",
+          "preexisting",
+          "pre existing"
+        ],
+        "meaning": "A health condition you already had before buying the policy. These usually have a longer waiting period or are excluded, and you must disclose them honestly."
+      },
+      {
+        "term": "Exclusion",
+        "aliases": [
+          "exclusion",
+          "exclusions",
+          "excluded"
+        ],
+        "meaning": "Something the policy specifically does not pay for."
+      },
+      {
+        "term": "Sub-limit",
+        "aliases": [
+          "sub-limit",
+          "sublimit",
+          "sub limit"
+        ],
+        "meaning": "A cap on how much is paid for a specific item, such as a procedure or room, even if your total sum insured is higher."
+      },
+      {
+        "term": "Room rent limit",
+        "aliases": [
+          "room rent",
+          "room rent cap"
+        ],
+        "meaning": "A cap on the daily room charge the policy covers. Choosing a costlier room can also reduce other payments (see proportionate deduction)."
+      },
+      {
+        "term": "Proportionate deduction",
+        "aliases": [
+          "proportionate deduction",
+          "proportionately",
+          "proportionate"
+        ],
+        "meaning": "If your room costs more than the limit, many other charges are cut by the same proportion, not just the room charge."
+      },
+      {
+        "term": "Cashless",
+        "aliases": [
+          "cashless",
+          "cash-less"
+        ],
+        "meaning": "The insurer pays the hospital directly, usually only at network hospitals and with prior approval."
+      },
+      {
+        "term": "Reimbursement",
+        "aliases": [
+          "reimbursement",
+          "reimburse"
+        ],
+        "meaning": "You pay the hospital first and then claim the money back from the insurer with documents."
+      },
+      {
+        "term": "TPA (third-party administrator)",
+        "aliases": [
+          "tpa",
+          "third party administrator",
+          "third-party administrator"
+        ],
+        "meaning": "A company that handles claims on behalf of the insurer."
+      },
+      {
+        "term": "Network hospital",
+        "aliases": [
+          "network hospital",
+          "network provider",
+          "empanelled"
+        ],
+        "meaning": "A hospital that has an agreement with the insurer for cashless treatment."
+      },
+      {
+        "term": "Informed consent",
+        "aliases": [
+          "informed consent",
+          "consent"
+        ],
+        "meaning": "Your agreement to a treatment after the risks, benefits and alternatives have been explained to you. Make sure you understand it before signing."
+      },
+      {
+        "term": "Discharge summary",
+        "aliases": [
+          "discharge summary",
+          "discharge"
+        ],
+        "meaning": "A report written when you leave the hospital, describing why you were admitted, what was done and what to do next."
+      },
+      {
+        "term": "Discharge against medical advice",
+        "aliases": [
+          "against medical advice",
+          "lama",
+          "dama"
+        ],
+        "meaning": "Leaving the hospital when the doctor advises you to stay. Forms for this often limit the hospital's responsibility."
+      },
+      {
+        "term": "Diagnosis",
+        "aliases": [
+          "diagnosis",
+          "diagnosed"
+        ],
+        "meaning": "The doctor's conclusion about what condition you have."
+      },
+      {
+        "term": "Free-look period",
+        "aliases": [
+          "free look",
+          "free-look"
+        ],
+        "meaning": "A short period after buying a policy during which you can cancel it and get a refund, usually after small deductions."
+      },
+      {
+        "term": "Portability",
+        "aliases": [
+          "portability",
+          "port the policy"
+        ],
+        "meaning": "Moving your policy to another insurer while keeping benefits you have already built up, such as waiting periods served."
+      }
+    ]
+  },
+  "court": {
+    "id": "court",
+    "name": "Court & Legal Notices",
+    "description": "Court notices, summons, orders, judgments and legal notices",
+    "accepts": "Legal notices, court summons, orders and judgments, affidavits and petitions",
+    "role": "You are an expert in explaining court and legal documents such as summons, legal notices, orders, judgments, affidavits and petitions. You help ordinary people understand what a document says, what it requires them to do, and by when. You explain documents; you are not their lawyer.",
+    "reader": "party concerned",
+    "example_document_type": "Legal Notice",
+    "disclaimer": "General information, not legal advice. Court deadlines are strict, so confirm every date with the court or a qualified lawyer.",
+    "features": {
+      "chat": true
+    },
+    "extra_sections": [
+      "action_items"
+    ],
+    "sections": {
+      "risks": {
+        "title": "Points that need attention"
+      },
+      "action_items": {
+        "title": "What you need to do, and by when",
+        "note": "Dates are taken from the document and can be misread. Always confirm them with the court or a lawyer, because missing a deadline can have serious consequences."
+      }
+    },
+    "upload_warning": "Court papers often contain names, addresses and case details. Use a sample or edited copy, and remove ID numbers before uploading.",
+    "guardrails": [
+      "Never predict how a case will end or tell the person what their legal chances are.",
+      "Never tell the person to ignore a notice or summons. If a document sets a deadline or hearing date, remind them to confirm it and to consider speaking to a lawyer.",
+      "Copy dates and deadlines exactly as written; never calculate or guess a date.",
+      "Do not assume which side the person is on unless the document makes it clear."
+    ],
+    "risk_checklist": [
+      "Deadlines to reply, appear in court or comply, and what happens if they are missed",
+      "Hearing dates, the court, and the place or online link where the person must appear",
+      "Orders that take effect automatically if the person does not respond, such as a decision made in their absence",
+      "Money to be paid: amounts, interest, penalties, costs and the date they are due",
+      "Orders to do or stop doing something (injunctions, stays, vacating property) and the penalty for ignoring them",
+      "Statements the person is asked to confirm or admit that could be used against them",
+      "Threats of further action in a legal notice, such as criminal proceedings or recovery of money",
+      "Attachment of property, freezing of bank accounts or other enforcement steps",
+      "Limits on the right to appeal, and the time allowed to appeal",
+      "Unclear parties, case numbers or demands that need checking before responding"
+    ],
+    "key_term_hints": [
+      "Court or authority",
+      "Case number",
+      "Parties (who is suing or accusing whom)",
+      "Type of document",
+      "Hearing or next date",
+      "Order or relief",
+      "Amount claimed, if any"
+    ],
+    "chat_suggestions": [
+      "What is this document asking me to do?",
+      "What happens if I don't reply by the deadline?",
+      "Who are the parties and what is the dispute about?",
+      "Explain the legal terms in this document"
+    ],
+    "glossary": [
+      {
+        "term": "Summons",
+        "aliases": [
+          "summons",
+          "summon"
+        ],
+        "meaning": "An official order to appear in court, or to respond to a case, at a stated time."
+      },
+      {
+        "term": "Legal notice",
+        "aliases": [
+          "legal notice",
+          "demand notice"
+        ],
+        "meaning": "A formal written warning sent before going to court, usually demanding that something be done by a deadline."
+      },
+      {
+        "term": "Plaintiff / complainant",
+        "aliases": [
+          "plaintiff",
+          "complainant"
+        ],
+        "meaning": "The person who starts a case or makes a complaint."
+      },
+      {
+        "term": "Defendant / respondent",
+        "aliases": [
+          "defendant",
+          "respondent"
+        ],
+        "meaning": "The person a case is brought against, who must respond."
+      },
+      {
+        "term": "Petitioner",
+        "aliases": [
+          "petitioner",
+          "applicant"
+        ],
+        "meaning": "The person who files a petition or application asking the court for something."
+      },
+      {
+        "term": "Accused",
+        "aliases": [
+          "accused"
+        ],
+        "meaning": "A person charged with, or suspected of, a crime in a criminal case."
+      },
+      {
+        "term": "Interim order",
+        "aliases": [
+          "interim order",
+          "interim relief",
+          "interim"
+        ],
+        "meaning": "A temporary order made while the case is still going on."
+      },
+      {
+        "term": "Ex-parte",
+        "aliases": [
+          "ex-parte",
+          "ex parte",
+          "exparte"
+        ],
+        "meaning": "Decided or ordered with only one side present. If you do not appear, the court may decide without hearing you."
+      },
+      {
+        "term": "Adjournment",
+        "aliases": [
+          "adjourned",
+          "adjournment"
+        ],
+        "meaning": "Postponing a hearing to another date."
+      },
+      {
+        "term": "Injunction",
+        "aliases": [
+          "injunction"
+        ],
+        "meaning": "A court order to do, or to stop doing, something."
+      },
+      {
+        "term": "Stay",
+        "aliases": [
+          "stay order",
+          "stay of execution",
+          "stayed"
+        ],
+        "meaning": "A court order that pauses an action, or another order, for a time."
+      },
+      {
+        "term": "Decree",
+        "aliases": [
+          "decree"
+        ],
+        "meaning": "The formal written order of a civil court that records its decision."
+      },
+      {
+        "term": "Judgment",
+        "aliases": [
+          "judgment",
+          "judgement"
+        ],
+        "meaning": "The court's reasoned decision in a case."
+      },
+      {
+        "term": "Affidavit",
+        "aliases": [
+          "affidavit"
+        ],
+        "meaning": "A written statement of facts that you swear or affirm is true. False statements can lead to punishment."
+      },
+      {
+        "term": "Appeal",
+        "aliases": [
+          "appeal",
+          "appellate"
+        ],
+        "meaning": "Asking a higher court to review a decision. There is usually a strict time limit."
+      },
+      {
+        "term": "Jurisdiction",
+        "aliases": [
+          "jurisdiction"
+        ],
+        "meaning": "The power of a particular court to hear a case, based on place, subject or amount."
+      },
+      {
+        "term": "Limitation period",
+        "aliases": [
+          "limitation period",
+          "time-barred",
+          "time barred"
+        ],
+        "meaning": "The time limit within which a case or appeal must be filed. After it, the claim may be barred."
+      },
+      {
+        "term": "Written statement",
+        "aliases": [
+          "written statement"
+        ],
+        "meaning": "The defendant's formal written reply to the plaintiff's claim."
+      },
+      {
+        "term": "Bail",
+        "aliases": [
+          "bail"
+        ],
+        "meaning": "Temporary release of an accused person during a case, usually with conditions."
+      },
+      {
+        "term": "FIR",
+        "aliases": [
+          "fir",
+          "first information report"
+        ],
+        "meaning": "First Information Report: the written record police make when they receive information about a crime."
+      },
+      {
+        "term": "Contempt of court",
+        "aliases": [
+          "contempt"
+        ],
+        "meaning": "Disobeying a court order or disrespecting the court, which can lead to penalties."
+      }
+    ]
+  },
+  "property": {
+    "id": "property",
+    "name": "Property & agreements",
+    "description": "Sale deeds, rentals and property agreements",
+    "role": "Explain property deeds and agreements in plain language. Do not determine title, enforceability or whether to sign.",
+    "guardrails": [
+      "Do not invent statutory sections. Separate source wording from interpretation."
+    ],
+    "features": {
+      "chat": true
+    },
+    "disclaimer": "Document explanation only; not a title check or legal advice.",
+    "key_term_hints": [
+      "Parties and property description",
+      "Consideration and payment",
+      "Possession and registration",
+      "Restrictions and obligations"
+    ],
+    "glossary": [],
+    "risk_checklist": []
+  }
+}

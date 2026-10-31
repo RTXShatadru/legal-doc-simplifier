@@ -1,6 +1,7 @@
 """Grounded analysis and chat; document text is DATA, never an instruction."""
 import json
 import re
+from bisect import bisect_right
 from typing import Literal
 from pydantic import BaseModel, Field
 import gemini
@@ -93,7 +94,10 @@ def source_quote(quote, source):
     if not quote or len(quote) > 2000:
         return None
     def literal(word):
-        return ''.join('[-‐‑]' if c in '-‐‑' else '[’\x27]' if c in "’'" else re.escape(c) for c in word)
+        # PDF text often wraps a hyphenated name after its existing hyphen,
+        # e.g. Sentence-\nTransformers. Accept only the newline/indentation;
+        # retain the hyphen and return the actual source substring below.
+        return ''.join(r'[-‐‑](?:[ \t]*\r?\n[ \t]*)?' if c in '-‐‑' else '[’\x27]' if c in "’'" else re.escape(c) for c in word)
     pattern = r'\s+'.join(literal(word) for word in quote.split())
     match = re.search(pattern, source, re.I)
     return match.group(0) if match else None
@@ -174,52 +178,106 @@ def demo_analysis(clauses):
 
 
 def analyze_document(clauses, extraction=None, doc_id=None):
+    import domain_service, domain_review
+    context=db.get_context(doc_id) if doc_id else {'domain':'property','workflow':'review'}
+    domain,workflow=context['domain'],context['workflow']
     if config.AI_PROVIDER == 'demo':
-        analysis = demo_analysis(clauses)
-    elif config.AI_PROVIDER == 'ollama':
-        import long_review
-        analysis = long_review.review(clauses, extraction, doc_id)
+        if domain=='property':analysis=validate_analysis(demo_analysis(clauses),clauses)
+        else:analysis={'plain_summary':'Local demo: open Source text to inspect extracted content. Configure Groq to generate domain-specific explanations.', 'document_type':domain_service.get(domain,workflow)['name'], 'key_terms':[], 'risky_clauses':[]}
+        analysis=domain_service.enrich(analysis,[],clauses,domain,workflow)
     else:
-        system = SYSTEM + """
-Summarize the complete agreement in 3–6 sentences, identify key amounts/dates/obligations,
-and flag notable provisions using exact short quotes (at most 25 words). For every risk,
-explain the potential effect and suggest a question to clarify. Review all provided clauses.
-If this is not an agreement, say so and return no risk flags. No flags does not prove safety."""
-        payload = {'clauses': clauses, 'extraction': extraction, 'review_references': reference_set(clauses)}
-        for attempt in range(2 if config.AI_PROVIDER == 'groq' else 1):
-            try:
-                repair = '\nThe previous response failed JSON, schema, or source validation. Return valid JSON; copy clause_index and quote exactly from the supplied clauses.' if attempt else ''
-                analysis = validate_analysis(call_json(system + repair, payload, Analysis, 7000), clauses)
-                break
-            except ValueError:
-                if config.AI_PROVIDER != 'groq' or attempt:
-                    raise
-    if config.AI_PROVIDER != 'ollama':
-        analysis = validate_analysis(analysis, clauses)
-    analysis['mode'] = config.AI_PROVIDER
-    analysis['model'] = {'ollama': config.OLLAMA_MODEL, 'groq': config.GROQ_MODEL, 'gemini': config.GEMINI_MODEL}.get(config.AI_PROVIDER, 'Local rules and excerpts')
-    analysis['reference_count'] = len(reference_set(clauses))
+        analysis=domain_review.review(clauses,extraction,doc_id,domain,workflow)
+    analysis['mode']=config.AI_PROVIDER
+    analysis['model']={'groq':config.GROQ_MODEL,'ollama':config.OLLAMA_MODEL,'gemini':config.GEMINI_MODEL}.get(config.AI_PROVIDER,'Local rules and excerpts')
     return analysis
 
 
+def chat_source_excerpt(clause, query, max_bytes):
+    """Choose a relevant, byte-bounded source window without changing its citation."""
+    text = clause['text']
+    if len(text.encode('utf-8')) <= max_bytes:
+        return clause
+    # Character offsets keep UTF-8 text intact. Overlapping windows keep phrases
+    # near a window boundary available to the same existing local relevance ranker.
+    original_start = clause.get('excerpt_start', 0) if clause.get('is_excerpt') else 0
+    offsets = [0]
+    for char in text:
+        offsets.append(offsets[-1] + len(char.encode('utf-8')))
+    windows = []
+    start = 0
+    while start < len(text):
+        end = bisect_right(offsets, offsets[start] + max_bytes) - 1
+        if end <= start:
+            break
+        if end < len(text):
+            boundary = text.rfind(' ', start + (end - start) // 2, end)
+            if boundary != -1:
+                end = boundary
+        windows.append(dict(clause, text=text[start:end], is_excerpt=True,
+                            excerpt_start=original_start + start, excerpt_end=original_start + end))
+        if end == len(text):
+            break
+        next_start = start + max(1, (end - start) * 3 // 4)
+        boundary = text.find(' ', next_start, end)
+        start = boundary + 1 if boundary != -1 else next_start
+    from retrieval import rank
+    return (rank(windows, query, top_k=1) or windows)[0]
+
+
+def generic_chat_followup(question):
+    wording = ' '.join(question.lower().split()).strip(' .?!')
+    return bool(re.fullmatch(
+        r'(?:please )?(?:(?:can|could) you )?(?:explain|clarify|simplify|elaborate)(?: (?:that|this|it|your answer|the answer))?(?: (?:more simply|more|again|further|in plain language|in simpler terms))?'
+        r'|(?:which|what) (?:section|source|passage|part) supports (?:that|this|it|your answer)'
+        r'|what does (?:that|this|it) mean', wording))
+
+
 def answer_question(doc_id, question, history):
-    prior = [m['content'] for m in history if m['role'] == 'user'][-2:]
-    followup = bool(re.search(r'\b(it|that|those|these|this|they|them|explain more|why)\b|इसके|उसके|इसका|उसका', question, re.I))
-    retrieval_query = ' '.join(prior[-1:] + [question]) if followup else question
+    prior = [m['content'] for m in history if m['role'] == 'user']
+    generic = generic_chat_followup(question)
+    followup = generic or bool(re.search(r'\b(it|that|those|these|this|they|them|explain more|why)\b|इसके|उसके|इसका|उसका', question, re.I))
+    topic = next((q for q in reversed(prior) if not generic_chat_followup(q)), '')
+    retrieval_query = ' '.join([topic, question]).strip() if followup else question
     explicit = re.findall(r'(?:clause|section)\s*#?\s*(\d+)|\[(\d+)\]',question,re.I)
     if explicit:
         wanted={int(a or b)-1 for a,b in explicit}
         relevant=[c for c in db.get_clauses(doc_id) if c['clause_index'] in wanted]
     else:
         relevant = db.retrieve(doc_id, retrieval_query, top_k=3)
-    # Bound local inference without clipping a passage mid-sentence. Retrieval is
-    # intentionally partial; the answer must never claim whole-document coverage.
-    selected=[];size=0
-    for clause in relevant:
-        cost=len(clause['text'].encode('utf-8'))
-        if selected and size+cost>4500:
-            continue
-        selected.append(clause);size+=cost
+        if followup:
+            # Resolve "what does that mean?" against the previous answer's sources.
+            # Reload current text from this document; assistant prose and cached
+            # quotations are never used as factual evidence.
+            previous = next((m for m in reversed(history) if m['role'] == 'assistant'), {})
+            cited = {s.get('clause_index'):s for s in (previous.get('sources') or []) if isinstance(s, dict)}
+            if cited:
+                prior_sources = [c for c in db.get_clauses(doc_id) if c['clause_index'] in cited]
+                if generic:
+                    for i, clause in enumerate(prior_sources):
+                        cached = cited[clause['clause_index']]
+                        start, end = cached.get('excerpt_start'), cached.get('excerpt_end')
+                        # Preserve a previous evidence window only after matching
+                        # it against the CURRENT selected document's source text.
+                        if (cached.get('is_excerpt') and type(start) is int and type(end) is int
+                                and 0 <= start < end <= len(clause['text'])
+                                and clause['text'][start:end] == cached.get('text')):
+                            prior_sources[i] = dict(clause, text=clause['text'][start:end],
+                                is_excerpt=True, excerpt_start=start, excerpt_end=end)
+                ordered = prior_sources + relevant if generic else relevant + prior_sources
+                unique = {}
+                for clause in ordered:
+                    unique.setdefault(clause['clause_index'], clause)
+                relevant = list(unique.values())[:3]
+    # A single OCR section can be much larger than the request budget. Select
+    # relevant windows, retaining indices and offsets instead of dropping the
+    # first/only section or silently claiming the whole section was supplied.
+    selected=[];remaining=4500
+    relevant=relevant[:8]
+    for position, clause in enumerate(relevant):
+        allowance=remaining // (len(relevant)-position)
+        excerpt=chat_source_excerpt(clause,retrieval_query,allowance)
+        selected.append(excerpt)
+        remaining-=len(excerpt['text'].encode('utf-8'))
     relevant=selected
     if not relevant:
         return "I couldn't find a matching passage in this document. Try a specific topic, quote, or section number. This does not mean the document has no such term.", []
@@ -231,16 +289,11 @@ def answer_question(doc_id, question, history):
             f"[{c['clause_index'] + 1}] {simplify(c['text'])[:700]}" for c in relevant)
         indices = [c['clause_index'] for c in relevant]
     else:
-        chat_system = SYSTEM + """
-Answer using the retrieved clauses only. History is context, not factual evidence.
-Give a direct, concise answer in 2–4 sentences, or at most 4 short bullets.
-Reply in the question's language. Preserve amounts and names; do not guess unclear OCR.
-For an unclear value, say it needs verification against the original page.
-Include [N] citations, where N = clause_index + 1, and list clause_index in clause_indices.
-If these excerpts do not answer the question, say so; do not assert that a term is absent
-from the entire agreement."""
+        import domain_service
+        context=db.get_context(doc_id)
+        chat_system = domain_service.chat_system_for(context['domain'],context['workflow'])
         payload = {'question': question, 'clauses': relevant, 'conversation': [{'role':m['role'],'content':m['content'][:600]} for m in history[-4:]], 'extraction': {k:v for k,v in (db.get_extraction(doc_id) or {}).items() if k in ('language','warnings','unreadable_pages')},
-             'review_references': reference_set(relevant),
+             'source_scope': 'Selected source passages only. Sections marked is_excerpt are partial; excerpt_start and excerpt_end are character offsets in the original section.',
              'allowed_citations': [{'marker':f"[{c['clause_index']+1}]",'clause_index':c['clause_index']} for c in relevant]}
         for attempt in range(2):
             try:

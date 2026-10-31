@@ -8,7 +8,7 @@ from pathlib import Path
 from uuid import UUID
 
 import jwt
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Request, Response
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Depends, Request, Response, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -20,8 +20,12 @@ import config
 import auth
 import db
 import parsing
+import domain_service
+import document_input
+import resume_matching
 import embeddings
 import llm
+import legal_knowledge
 from provider_errors import ProviderError
 import google_oauth
 import clerk_auth
@@ -84,7 +88,7 @@ async def lifespan(app):
             await task
 
 
-app = FastAPI(title='SimplyDoc · Legal Document Simplifier', version='1.0.0', lifespan=lifespan)
+app = FastAPI(title='SimplyDoc · Unified Document Workspace', version='1.0.0', lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=config.ALLOWED_ORIGINS, allow_credentials=True,
                    allow_methods=['GET', 'POST', 'DELETE'], allow_headers=['Content-Type', 'Authorization'])
 
@@ -160,6 +164,8 @@ class Credentials(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
+    include_law: bool = False
+    legal_period: legal_knowledge.Period = 'unknown'
 
     @field_validator('message')
     @classmethod
@@ -317,25 +323,27 @@ def google_callback(request: Request):
     return finish(user=user, linked=bool(flow['link_user_id']))
 
 
-def ingest(content, filename, user):
+def ingest(content, filename, user, domain="property", workflow="review"):
+    try: domain_service.get(domain,workflow)
+    except ValueError as exc: raise HTTPException(422,str(exc)) from None
     limit(user['id'], 'upload', 10, 3600)
     limit('service', 'analysis-budget', int(os.getenv('MAX_ANALYSES_PER_DAY', '100')), 86400)
     if len(content) > config.MAX_UPLOAD_BYTES:
         raise HTTPException(413, 'PDFs must be 10 MB or smaller.')
     try:
-        full_text, chunks, pages, extraction = parsing.parse_pdf_detailed(content)
+        full_text, chunks, pages, extraction = document_input.parse(content, filename, domain, workflow)
         safe_name = Path(filename.replace('\\', '/')).name[:180] or 'document.pdf'
-        doc_id = db.create_document(user['id'], safe_name, full_text, chunks, pages, extraction)
+        doc_id = db.create_document(user['id'], safe_name, full_text, chunks, pages, extraction, domain, workflow)
     except ValueError as exc:
         raise HTTPException(400, str(exc)) from None
     return {'doc_id': doc_id, 'filename': safe_name, 'clause_count': len(chunks), 'status': 'needs_review' if extraction.get('ocr_pages') else 'queued'}
 
 
 @app.post('/api/documents/upload', status_code=202)
-def upload_document(file: UploadFile = File(...), user=Depends(current_user)):
+def upload_document(file: UploadFile = File(...), domain: str = Form("property"), workflow: str = Form("review"), user=Depends(current_user)):
     try:
         content = file.file.read(config.MAX_UPLOAD_BYTES + 1)
-        return ingest(content, file.filename or 'document.pdf', user)
+        return ingest(content, file.filename or 'document.pdf', user, domain, workflow)
     finally:
         file.file.close()
 
@@ -343,6 +351,48 @@ def upload_document(file: UploadFile = File(...), user=Depends(current_user)):
 @app.post('/api/documents/sample', status_code=202)
 def sample_document(user=Depends(current_user)):
     return ingest((config.ROOT / 'sample_lease.pdf').read_bytes(), 'Sample rental agreement.pdf', user)
+
+
+@app.get('/api/domains')
+def domains(user=Depends(current_user)):
+    return domain_service.public_catalog()
+
+
+class MatchRequest(BaseModel):
+    description: str = Field(min_length=30, max_length=6000)
+
+
+class WorkspaceRequest(BaseModel):
+    domain: str
+    workflow: str = 'review'
+
+
+@app.post('/api/documents/{doc_id}/workspace', status_code=202)
+def change_workspace(doc_id: UUID, req: WorkspaceRequest, user=Depends(current_user)):
+    owned(doc_id,user)
+    try:domain_service.get(req.domain,req.workflow)
+    except ValueError as exc:raise HTTPException(422,str(exc)) from None
+    limit(user['id'],'workspace-change',10,3600)
+    limit('service','analysis-budget',int(os.getenv('MAX_ANALYSES_PER_DAY','100')),86400)
+    try:status=db.reclassify(str(doc_id),user['id'],req.domain,req.workflow)
+    except ValueError as exc:raise HTTPException(409,str(exc)) from None
+    return {'status':status}
+
+
+@app.post('/api/documents/{doc_id}/match')
+def match_resume(doc_id: UUID, req: MatchRequest, user=Depends(current_user)):
+    doc=owned(doc_id,user)
+    context=db.get_context(doc['id'])
+    if context['workflow']!='resume' or doc['status']!='ready':
+        raise HTTPException(409,'Choose a completed resume analysis first.')
+    limit(user['id'],'job-match',10,3600)
+    revision=db.source_revision(db.get_clauses(doc['id']))
+    try:
+        result=resume_matching.match(doc['summary_json']['resume_profile'],req.description)
+        db.save_match(doc['id'],user['id'],result,revision)
+    except ProviderError as exc:raise HTTPException(503,str(exc)) from None
+    except ValueError as exc:raise HTTPException(409,str(exc)) from None
+    return result
 
 
 @app.get('/api/documents')
@@ -364,7 +414,7 @@ def get_document(doc_id: UUID, user=Depends(current_user)):
     return {'doc_id': doc['id'], 'filename': doc['filename'], 'status': doc['status'],
             'uploaded_at': doc['uploaded_at'], 'page_count': doc['page_count'],
             'analysis': doc['summary_json'], 'error': doc['error'], 'clauses': chunks, 'source_revision': db.source_revision(chunks),
-            'extraction': db.get_extraction(doc['id']), 'progress': db.batch_progress(doc['id'])}
+            'extraction': db.get_extraction(doc['id']), 'progress': db.batch_progress(doc['id']), **db.get_context(doc['id'])}
 
 
 class SourceSection(BaseModel):
@@ -415,7 +465,10 @@ def chat(doc_id: UUID, req: ChatRequest, user=Depends(current_user)):
     limit('service', 'chat-budget', int(os.getenv('MAX_CHATS_PER_DAY', '1000')), 86400)
     revision=db.source_revision(db.get_clauses(doc['id']))
     try:
-        answer, sources = llm.answer_question(doc['id'], req.message, db.chat_history(doc['id']))
+        if req.include_law:
+            answer, sources = legal_knowledge.answer_question(doc['id'], req.message, db.chat_history(doc['id']), req.legal_period)
+        else:
+            answer, sources = llm.answer_question(doc['id'], req.message, db.chat_history(doc['id']))
         db.save_chat_pair(doc['id'], req.message, answer, sources, expected_revision=revision)
     except ProviderError as exc:
         raise HTTPException(503, str(exc)) from None
@@ -429,6 +482,16 @@ def chat(doc_id: UUID, req: ChatRequest, user=Depends(current_user)):
 def history(doc_id: UUID, user=Depends(current_user)):
     doc = owned(doc_id, user)
     return db.chat_history(doc['id'], 200)
+
+
+@app.get('/api/documents/{doc_id}/legal-references')
+def legal_references(doc_id: UUID, q: str = Query('', max_length=200),
+                     period: legal_knowledge.Period = 'unknown', act: legal_knowledge.Act = 'all',
+                     browse: bool = False, user=Depends(current_user)):
+    doc = owned(doc_id, user)
+    if doc['status'] != 'ready':
+        raise HTTPException(409, 'Wait for analysis to finish before opening legal references.')
+    return legal_knowledge.response(q, db.get_clauses(doc['id']), period, act, browse)
 
 
 @app.delete('/api/documents/{doc_id}')

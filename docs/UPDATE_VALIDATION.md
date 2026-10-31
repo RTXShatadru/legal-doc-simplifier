@@ -1,3 +1,5 @@
+> Inherited base-project documentation. For the unified edition, see [INTEGRATION.md](INTEGRATION.md), [VALIDATION.md](VALIDATION.md), and the root README.
+
 # Frontend and Groq update — validation
 
 - Production frontend build: passed (`npm run build`).

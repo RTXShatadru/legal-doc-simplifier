@@ -1,9 +1,11 @@
-.env
-backend/.env
+**/.env*
+!**/.env.example
 **/*.db*
+**/*.sqlite*
 **/__pycache__/
 **/.pytest_cache/
 **/node_modules/
+**/uploads/
 frontend-react/dist/
 .venv/
 .runtime/
